@@ -34,7 +34,7 @@ export function Hero() {
           initial={{ opacity: 0, scale: 1.06 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-          className="w-[min(78vw,520px)] max-w-full"
+          className="w-[min(60vw,360px)] max-w-full mix-blend-screen"
           width={520}
           height={520}
         />
@@ -43,7 +43,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.1, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className="display-xl -mt-6 max-w-4xl text-foreground md:-mt-14"
+          className="display-xl -mt-10 max-w-4xl text-foreground md:-mt-16"
         >
           Open World
           <br />
