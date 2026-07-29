@@ -26,7 +26,7 @@ export function Hero() {
 
       <motion.div
         style={{ opacity }}
-        className="container-x relative flex h-full flex-col justify-center pt-24"
+        className="container-x relative flex h-full flex-col justify-center pt-28 pb-32"
       >
         <motion.img
           src={logo.url}
@@ -34,7 +34,7 @@ export function Hero() {
           initial={{ opacity: 0, scale: 1.06 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-          className="w-[min(60vw,360px)] max-w-full mix-blend-screen"
+          className="w-[min(60vw,340px)] max-w-full mix-blend-screen [filter:contrast(1.15)_brightness(1.05)]"
           width={520}
           height={520}
         />
@@ -89,7 +89,7 @@ export function Hero() {
 
       <motion.div
         style={{ opacity }}
-        className="absolute inset-x-0 bottom-8 flex flex-col items-center gap-3"
+        className="absolute inset-x-0 bottom-8 hidden flex-col items-center gap-3 md:flex"
       >
         <span className="eyebrow text-[0.6rem]">Scroll</span>
         <motion.span
