@@ -34,7 +34,7 @@ export function Hero() {
           initial={{ opacity: 0, scale: 1.06 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-          className="w-[min(60vw,340px)] max-w-full mix-blend-screen [filter:contrast(1.15)_brightness(1.05)]"
+          className="w-[min(52vw,260px)] max-w-full mix-blend-screen [filter:contrast(1.15)_brightness(1.05)]"
           width={520}
           height={520}
         />
