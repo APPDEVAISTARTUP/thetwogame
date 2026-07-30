@@ -1,43 +1,109 @@
-import { Camera, MessagesSquare, Video, Gamepad2, Mail } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { MessagesSquare, Video, Gamepad2, Mail, ArrowUpRight } from "lucide-react";
+import { LINKS } from "@/config/support";
+import { BrandWordmark } from "./BrandLogo";
+import { InstagramIcon } from "./icons";
 
 const socials = [
-  { icon: Camera, label: "Instagram", href: "https://instagram.com" },
-  { icon: MessagesSquare, label: "Discord", href: "https://discord.com" },
-  { icon: Gamepad2, label: "Steam", href: "https://store.steampowered.com" },
-  { icon: Video, label: "YouTube", href: "https://youtube.com" },
-  { icon: Mail, label: "Contact", href: "mailto:hello@twogame.in" },
+  { icon: InstagramIcon, label: "Instagram", href: LINKS.instagram },
+  { icon: MessagesSquare, label: "Discord", href: LINKS.discord },
+  { icon: Gamepad2, label: "Steam", href: LINKS.steam },
+  { icon: Video, label: "YouTube", href: LINKS.youtube },
+];
+
+const nav = [
+  { label: "About", href: "/#about" },
+  { label: "Features", href: "/#features" },
+  { label: "World", href: "/#world" },
+  { label: "Gallery", href: "/#gallery" },
+  { label: "Roadmap", href: "/#roadmap" },
+  { label: "Waitlist", href: "/#waitlist" },
 ];
 
 export function SiteFooter() {
   return (
-    <footer className="hairline">
-      <div className="container-x py-20">
-        <div className="flex flex-col justify-between gap-14 lg:flex-row">
-          <div>
-            <div className="font-display text-5xl tracking-[0.32em] text-foreground">TWO</div>
-            <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              Survive. Uncover. Fight the truth. A story-driven survival horror game made in India.
+    <footer className="hairline relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-blood/60 to-transparent" />
+
+      <div className="container-x py-16 md:py-24">
+        <div className="grid gap-14 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
+          {/* Brand */}
+          <div className="max-w-sm">
+            <BrandWordmark className="w-44 md:w-52" />
+            <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
+              Survive. Uncover. Fight the truth. TWO is a cinematic third-person open-world zombie
+              survival game set during the first days of the outbreak — built in Unreal Engine 5 by
+              a solo developer in India.
             </p>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              {socials.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={s.label}
+                  className="group flex h-11 w-11 items-center justify-center border border-border text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-blood hover:text-foreground"
+                >
+                  <s.icon size={16} className="transition-colors group-hover:text-blood-bright" />
+                </a>
+              ))}
+            </div>
           </div>
 
-          <nav className="flex flex-wrap gap-x-10 gap-y-5">
-            {socials.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noreferrer"
-                className="group flex items-center gap-3 text-xs uppercase tracking-[0.24em] text-muted-foreground transition-colors duration-300 hover:text-foreground"
-              >
-                <s.icon size={15} className="transition-colors group-hover:text-blood-bright" />
-                {s.label}
-              </a>
-            ))}
+          {/* Navigation */}
+          <nav aria-label="Footer">
+            <h2 className="eyebrow">Explore</h2>
+            <ul className="mt-6 space-y-3.5">
+              {nav.map((l) => (
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    className="text-sm tracking-wide text-muted-foreground transition-colors duration-300 hover:text-foreground"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+              <li>
+                <Link
+                  to="/support"
+                  className="inline-flex items-center gap-1.5 text-sm tracking-wide text-blood-bright transition-colors duration-300 hover:text-foreground"
+                >
+                  Support TWO <ArrowUpRight size={13} />
+                </Link>
+              </li>
+            </ul>
           </nav>
+
+          {/* Contact */}
+          <div>
+            <h2 className="eyebrow">Contact</h2>
+            <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
+              Press, collaborations, publishing or just a note about the game — the inbox is always
+              open.
+            </p>
+            <a
+              href={`mailto:${LINKS.email}`}
+              className="group mt-5 inline-flex items-center gap-3 border-b border-border pb-1 font-display text-sm uppercase tracking-[0.18em] text-foreground transition-colors duration-300 hover:border-blood"
+            >
+              <Mail size={15} className="text-blood-bright" />
+              {LINKS.email}
+            </a>
+            <a
+              href={LINKS.instagram}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-6 flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-muted-foreground transition-colors duration-300 hover:text-foreground"
+            >
+              <InstagramIcon size={15} className="text-blood-bright" />
+              Shade Studios on Instagram
+            </a>
+          </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-4 border-t border-border pt-8 text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <span>© {new Date().getFullYear()} TWO. All rights reserved.</span>
+        <div className="mt-14 flex flex-col gap-3 border-t border-border pt-8 text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <span>© {new Date().getFullYear()} Shade Studios · TWO. All rights reserved.</span>
           <span>Unreal Engine 5 · PC · In Development</span>
         </div>
       </div>
