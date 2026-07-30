@@ -34,9 +34,9 @@ export function Hero() {
           initial={{ opacity: 0, scale: 1.06 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-          className="w-[min(60vw,340px)] max-w-full"
-          width={1536}
-          height={640}
+          className="w-[min(58vw,320px)] max-w-full"
+          width={633}
+          height={331}
         />
 
         <motion.h1

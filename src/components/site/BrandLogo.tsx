@@ -7,8 +7,8 @@ export function BrandWordmark({ className }: { className?: string }) {
     <img
       src={wordmark}
       alt="TWO"
-      width={1536}
-      height={640}
+      width={633}
+      height={331}
       loading="lazy"
       decoding="async"
       className={cn("h-auto w-full select-none object-contain", className)}
