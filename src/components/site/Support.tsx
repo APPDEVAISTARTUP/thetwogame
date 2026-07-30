@@ -1,20 +1,32 @@
-import { useState } from "react";
+import { Link } from "@tanstack/react-router";
+import { ArrowUpRight } from "lucide-react";
+import { FUNDING_GOAL, FUNDING_RAISED, formatInr } from "@/config/support";
 import { CinematicButton, Reveal, Section, SectionHeading } from "./primitives";
 
 const tiers = [
-  { amount: "₹100", title: "Support Development", text: "A coffee for a very long night of level design.", perks: ["Name in supporters list"] },
-  { amount: "₹500", title: "Fuel Development", text: "Asset packs, plugins and reference material.", perks: ["Supporters list", "Early screenshots"] },
+  {
+    amount: "₹100",
+    title: "Supporter",
+    text: "A coffee for a very long night of level design.",
+    perks: ["Digital thank you"],
+  },
+  {
+    amount: "₹500",
+    title: "Backer",
+    text: "Asset packs, plugins and reference material.",
+    perks: ["Supporter role", "Name on the supporters page"],
+  },
   {
     amount: "₹1000",
-    title: "Founding Survivor",
+    title: "Champion",
     text: "Direct funding for the vertical slice build.",
-    perks: ["In-game credits", "Closed demo access", "Founding Survivors wall"],
+    perks: ["Supporter badge", "Name in game credits", "Priority demo access"],
     featured: true,
   },
 ];
 
 export function Support() {
-  const [custom, setCustom] = useState("");
+  const percent = Math.min(100, Math.round((FUNDING_RAISED / FUNDING_GOAL) * 100));
 
   return (
     <Section id="support" className="hairline">
@@ -24,14 +36,36 @@ export function Support() {
         description="TWO is funded entirely by people who want it to exist. Every contribution goes into the build."
       />
 
-      <div className="mt-20 grid gap-6 lg:grid-cols-3">
+      <Reveal delay={0.1}>
+        <div className="mt-14 border border-border bg-card p-6 md:p-8">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div className="font-display text-3xl text-foreground md:text-4xl">
+              {formatInr(FUNDING_RAISED)}
+              <span className="ml-3 text-sm tracking-[0.2em] text-muted-foreground">
+                of {formatInr(FUNDING_GOAL)}
+              </span>
+            </div>
+            <span className="text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">
+              {percent}% funded
+            </span>
+          </div>
+          <div className="mt-6 h-1.5 w-full overflow-hidden bg-secondary">
+            <div
+              style={{ width: `${percent}%` }}
+              className="h-full bg-linear-to-r from-blood to-blood-bright transition-all duration-700"
+            />
+          </div>
+        </div>
+      </Reveal>
+
+      <div className="mt-6 grid gap-6 lg:grid-cols-3">
         {tiers.map((t, i) => (
           <Reveal key={t.amount} delay={i * 0.08}>
             <div
-              className={`group relative flex h-full flex-col border p-10 transition-all duration-500 ${
+              className={`group relative flex h-full flex-col border p-8 transition-all duration-500 md:p-10 ${
                 t.featured
                   ? "border-blood bg-card shadow-[0_0_60px_-30px_var(--color-blood-bright)]"
-                  : "border-border bg-background hover:border-foreground/25"
+                  : "border-border bg-background hover:-translate-y-1 hover:border-foreground/25"
               }`}
             >
               {t.featured && (
@@ -39,7 +73,7 @@ export function Support() {
                   Most chosen
                 </span>
               )}
-              <div className="font-display text-5xl text-foreground">{t.amount}</div>
+              <div className="font-display text-4xl text-foreground md:text-5xl">{t.amount}</div>
               <h3 className="mt-6 font-display text-lg uppercase tracking-[0.16em] text-foreground">
                 {t.title}
               </h3>
@@ -56,12 +90,11 @@ export function Support() {
                 ))}
               </ul>
               <div className="mt-10">
-                <CinematicButton
-                  variant={t.featured ? "primary" : "outline"}
-                  className="w-full"
-                >
-                  Contribute
-                </CinematicButton>
+                <Link to="/support" className="block">
+                  <CinematicButton variant={t.featured ? "primary" : "outline"} className="w-full">
+                    Contribute
+                  </CinematicButton>
+                </Link>
               </div>
             </div>
           </Reveal>
@@ -69,26 +102,22 @@ export function Support() {
       </div>
 
       <Reveal delay={0.1}>
-        <div className="mt-6 flex flex-col gap-4 border border-border p-8 sm:flex-row sm:items-center">
-          <div className="flex-1">
+        <div className="mt-6 flex flex-col gap-5 border border-border p-8 sm:flex-row sm:items-center sm:justify-between">
+          <div>
             <div className="font-display text-lg uppercase tracking-[0.16em] text-foreground">
-              Custom Amount
+              Custom Amount & UPI
             </div>
             <p className="mt-2 text-sm text-muted-foreground">
-              Give what feels right. Every rupee is development time.
+              Pay any amount instantly with GPay, PhonePe, Paytm or BHIM.
             </p>
           </div>
-          <div className="flex w-full gap-3 sm:w-auto">
-            <input
-              value={custom}
-              onChange={(e) => setCustom(e.target.value)}
-              inputMode="numeric"
-              placeholder="₹"
-              aria-label="Custom amount"
-              className="w-full border border-border bg-background px-5 py-4 text-sm outline-hidden transition-colors focus:border-blood sm:w-40"
-            />
-            <CinematicButton variant="outline">Send</CinematicButton>
-          </div>
+          <Link
+            to="/support"
+            className="group inline-flex items-center justify-center gap-3 border border-border px-7 py-4 font-display text-xs uppercase tracking-[0.26em] text-foreground transition-colors duration-300 hover:border-blood"
+          >
+            Open Support Page
+            <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5" />
+          </Link>
         </div>
       </Reveal>
     </Section>

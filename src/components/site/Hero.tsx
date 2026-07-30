@@ -2,7 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowDown, Play } from "lucide-react";
 import heroCity from "@/assets/hero-city.jpg";
-import logo from "@/assets/two-logo.png.asset.json";
+import wordmark from "@/assets/two-wordmark.png";
 import { CinematicButton } from "./primitives";
 
 export function Hero() {
@@ -29,21 +29,21 @@ export function Hero() {
         className="container-x relative flex h-full flex-col justify-center pt-28 pb-32"
       >
         <motion.img
-          src={logo.url}
+          src={wordmark}
           alt="TWO game logo"
           initial={{ opacity: 0, scale: 1.06 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-          className="w-[min(52vw,260px)] max-w-full mix-blend-screen [filter:contrast(1.15)_brightness(1.05)]"
-          width={520}
-          height={520}
+          className="w-[min(58vw,320px)] max-w-full"
+          width={633}
+          height={331}
         />
 
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.1, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className="display-xl -mt-10 max-w-4xl text-foreground md:-mt-16"
+          className="display-xl mt-4 max-w-4xl text-foreground"
         >
           Open World
           <br />
@@ -78,8 +78,8 @@ export function Hero() {
           <a href="#waitlist">
             <CinematicButton>Join Waitlist</CinematicButton>
           </a>
-          <a href="#support">
-            <CinematicButton variant="outline">Become Founding Supporter</CinematicButton>
+          <a href="/support">
+            <CinematicButton variant="outline">Support TWO</CinematicButton>
           </a>
           <CinematicButton variant="ghost" disabled>
             <Play size={14} /> Trailer — Coming Soon

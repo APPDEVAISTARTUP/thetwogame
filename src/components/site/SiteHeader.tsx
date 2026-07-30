@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BrandWordmark } from "./BrandLogo";
 
 const links = [
-  { label: "About", href: "#about" },
-  { label: "Features", href: "#features" },
-  { label: "World", href: "#world" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Roadmap", href: "#roadmap" },
-  { label: "Support", href: "#support" },
+  { label: "About", href: "/#about" },
+  { label: "Features", href: "/#features" },
+  { label: "World", href: "/#world" },
+  { label: "Gallery", href: "/#gallery" },
+  { label: "Roadmap", href: "/#roadmap" },
 ];
 
 export function SiteHeader() {
@@ -31,9 +32,9 @@ export function SiteHeader() {
       )}
     >
       <div className="container-x flex items-center justify-between">
-        <a href="#top" className="font-display text-2xl tracking-[0.3em] text-foreground">
-          TWO
-        </a>
+        <Link to="/" aria-label="TWO — home" className="block shrink-0">
+          <BrandWordmark className="w-24 md:w-28" />
+        </Link>
 
         <nav className="hidden items-center gap-9 lg:flex">
           {links.map((l) => (
@@ -45,11 +46,17 @@ export function SiteHeader() {
               {l.label}
             </a>
           ))}
+          <Link
+            to="/support"
+            className="relative text-xs uppercase tracking-[0.24em] text-muted-foreground transition-colors duration-300 hover:text-foreground after:absolute after:-bottom-2 after:left-0 after:h-px after:w-0 after:bg-blood after:transition-all after:duration-300 hover:after:w-full"
+          >
+            Support
+          </Link>
         </nav>
 
         <div className="flex items-center gap-3">
           <a
-            href="#waitlist"
+            href="/#waitlist"
             className="hidden border border-border px-6 py-3 font-display text-xs uppercase tracking-[0.28em] transition-colors duration-300 hover:border-blood sm:inline-block"
           >
             Join Waitlist
@@ -83,6 +90,20 @@ export function SiteHeader() {
                   {l.label}
                 </a>
               ))}
+              <Link
+                to="/support"
+                onClick={() => setOpen(false)}
+                className="font-display text-lg uppercase tracking-[0.2em] text-blood-bright"
+              >
+                Support TWO
+              </Link>
+              <a
+                href="/#waitlist"
+                onClick={() => setOpen(false)}
+                className="mt-2 border border-border px-6 py-3 text-center font-display text-xs uppercase tracking-[0.28em] text-foreground"
+              >
+                Join Waitlist
+              </a>
             </div>
           </motion.nav>
         )}
