@@ -10,7 +10,11 @@ import hospital from "@/assets/world-hospital.jpg";
 import { Reveal, Section, SectionHeading } from "./primitives";
 
 const shots = [
-  { src: highway, alt: "Burning vehicles on a destroyed highway", span: "md:col-span-2 md:row-span-2" },
+  {
+    src: highway,
+    alt: "Burning vehicles on a destroyed highway",
+    span: "md:col-span-2 md:row-span-2",
+  },
   { src: gas, alt: "Rain-soaked gas station at night", span: "" },
   { src: police, alt: "Police blockade in a town square", span: "" },
   { src: metro, alt: "Abandoned metro platform in darkness", span: "md:col-span-2" },

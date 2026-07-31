@@ -198,9 +198,7 @@ export function DonationPanel() {
           <div className="mt-8 font-display text-3xl text-foreground">
             {amount ? formatInr(amount) : "Any amount"}
           </div>
-          <p className="mt-3 text-xs uppercase tracking-[0.22em] text-muted-foreground">
-            {UPI_ID}
-          </p>
+          <p className="mt-3 text-xs uppercase tracking-[0.22em] text-muted-foreground">{UPI_ID}</p>
         </div>
       </Reveal>
     </div>

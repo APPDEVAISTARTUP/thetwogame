@@ -1,12 +1,42 @@
 import { Reveal, Section, SectionHeading } from "./primitives";
 
 const steps = [
-  { phase: "Phase 01", title: "Prototype", state: "Complete", text: "Core movement, first infected AI, one district blockout." },
-  { phase: "Phase 02", title: "Vertical Slice", state: "In Development", text: "One full playable hour: hospital district, crafting, weather." },
-  { phase: "Phase 03", title: "Closed Demo", state: "Next", text: "Private build for waitlist members and founding survivors." },
-  { phase: "Phase 04", title: "Steam Page", state: "Planned", text: "Store page, trailer and press kit go live." },
-  { phase: "Phase 05", title: "Wishlist Campaign", state: "Planned", text: "Public demo, creator builds, festival submissions." },
-  { phase: "Phase 06", title: "Release", state: "TBA", text: "PC. When it is genuinely ready — not before." },
+  {
+    phase: "Phase 01",
+    title: "Prototype",
+    state: "Complete",
+    text: "Core movement, first infected AI, one district blockout.",
+  },
+  {
+    phase: "Phase 02",
+    title: "Vertical Slice",
+    state: "In Development",
+    text: "One full playable hour: hospital district, crafting, weather.",
+  },
+  {
+    phase: "Phase 03",
+    title: "Closed Demo",
+    state: "Next",
+    text: "Private build for waitlist members and founding survivors.",
+  },
+  {
+    phase: "Phase 04",
+    title: "Steam Page",
+    state: "Planned",
+    text: "Store page, trailer and press kit go live.",
+  },
+  {
+    phase: "Phase 05",
+    title: "Wishlist Campaign",
+    state: "Planned",
+    text: "Public demo, creator builds, festival submissions.",
+  },
+  {
+    phase: "Phase 06",
+    title: "Release",
+    state: "TBA",
+    text: "PC. When it is genuinely ready — not before.",
+  },
 ];
 
 export function Roadmap() {

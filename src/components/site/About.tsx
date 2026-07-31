@@ -26,16 +26,13 @@ export function About() {
         </Reveal>
 
         <div className="order-1 lg:order-2">
-          <SectionHeading
-            eyebrow="The Story"
-            title="It did not end. It is ending right now."
-          />
+          <SectionHeading eyebrow="The Story" title="It did not end. It is ending right now." />
           <div className="mt-8 space-y-6 text-base leading-relaxed text-muted-foreground md:text-lg">
             <p>
               There is no wasteland yet. Streetlights still work. News anchors are still on air.
-              Somewhere a phone is ringing in an empty apartment. TWO drops you into the first
-              hours of the collapse, when nobody understands what is happening and everybody
-              believes it will be over by morning.
+              Somewhere a phone is ringing in an empty apartment. TWO drops you into the first hours
+              of the collapse, when nobody understands what is happening and everybody believes it
+              will be over by morning.
             </p>
             <p>
               You are not a soldier. You are not immune. Every bullet is counted, every door is a
