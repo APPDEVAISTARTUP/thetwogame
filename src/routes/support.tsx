@@ -9,6 +9,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { BrandWordmark } from "@/components/site/BrandLogo";
 import { Reveal, Section, SectionHeading } from "@/components/site/primitives";
 import { DonationPanel } from "@/components/support/DonationPanel";
+import { formatInr } from "@/config/support";
 import { supabase } from "@/integrations/supabase/client";
 
 const description =
