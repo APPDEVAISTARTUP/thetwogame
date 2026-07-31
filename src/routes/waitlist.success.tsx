@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion } from "framer-motion";
-import { ArrowUpRight, Mail, MessagesSquare } from "lucide-react";
+import { ArrowUpRight, MessagesSquare } from "lucide-react";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { BrandWordmark } from "@/components/site/BrandLogo";
@@ -9,7 +8,7 @@ import { LINKS } from "@/config/support";
 import { InstagramIcon } from "@/components/site/icons";
 
 const description =
-  "You're on the TWO waitlist. Confirm your email to lock in closed demo access and development letters from the solo developer behind TWO.";
+  "You're on the TWO waitlist. You'll be contacted personally with closed demo access and development letters from the solo developer behind TWO.";
 
 type Search = { name?: string; email?: string };
 
@@ -21,7 +20,7 @@ export const Route = createFileRoute("/waitlist/success")({
   }),
   head: () => ({
     meta: [
-      { title: "You're on the TWO Waitlist — Confirm Your Email" },
+      { title: "You're on the TWO Waitlist — Spot Saved" },
       { name: "description", content: description },
       { property: "og:title", content: "You're on the TWO Waitlist" },
       { property: "og:description", content: description },
@@ -37,13 +36,13 @@ export const Route = createFileRoute("/waitlist/success")({
 const steps = [
   {
     n: "01",
-    title: "Check your inbox",
-    text: "A confirmation email is on its way. Open it and tap the confirm link to verify your address.",
+    title: "Your spot is saved",
+    text: "You're locked into the waitlist. No further action needed from your side.",
   },
   {
     n: "02",
-    title: "Confirm your email",
-    text: "Unconfirmed addresses never receive demo keys. One tap is all it takes.",
+    title: "Personal reach-out",
+    text: "The developer contacts every person on the list personally — no automated blasts.",
   },
   {
     n: "03",
@@ -83,23 +82,8 @@ function WaitlistSuccess() {
                     for <span className="text-foreground">{email}</span>
                   </>
                 ) : null}
-                . One last step: confirm your email so we can reach you when the closed demo opens.
+                . You'll be reached out to personally when the closed demo opens.
               </p>
-            </Reveal>
-
-            <Reveal delay={0.26}>
-              <motion.div
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="glass-panel mt-12 flex items-center gap-4 p-6 text-left"
-              >
-                <Mail size={18} className="shrink-0 text-blood-bright" />
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  Can't find the email? Check spam or promotions, and add{" "}
-                  <span className="text-foreground">{LINKS.email}</span> to your contacts.
-                </p>
-              </motion.div>
             </Reveal>
           </div>
 
