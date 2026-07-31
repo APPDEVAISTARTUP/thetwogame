@@ -1,12 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import { MessagesSquare, Video, Gamepad2, Mail, ArrowUpRight } from "lucide-react";
+import { MessagesSquare, Video, Gamepad2, ArrowUpRight } from "lucide-react";
 import { LINKS } from "@/config/support";
 import { BrandWordmark } from "./BrandLogo";
 import { InstagramIcon } from "./icons";
 
 const socials = [
   { icon: InstagramIcon, label: "Instagram", href: LINKS.instagram },
-  { icon: MessagesSquare, label: "Discord", href: LINKS.discord },
+  { icon: MessagesSquare, label: "Discord", href: "https://discord.gg/zdjhWFAuu" },
   { icon: Gamepad2, label: "Steam", href: LINKS.steam },
   { icon: Video, label: "YouTube", href: LINKS.youtube },
 ];
@@ -43,7 +43,7 @@ export function SiteFooter() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={s.label}
-                  className="group flex h-11 w-11 items-center justify-center border border-border text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-blood hover:text-foreground"
+                  className="group flex h-11 w-11 items-center justify-center border border-border text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-blood"
                 >
                   <s.icon size={16} className="transition-colors group-hover:text-blood-bright" />
                 </a>
@@ -83,13 +83,12 @@ export function SiteFooter() {
               Press, collaborations, publishing or just a note about the game — the inbox is always
               open.
             </p>
-            <a
-              href={`mailto:${LINKS.email}`}
-              className="group mt-5 inline-flex items-center gap-3 border-b border-border pb-1 font-display text-sm uppercase tracking-[0.18em] text-foreground transition-colors duration-300 hover:border-blood"
-            >
-              <Mail size={15} className="text-blood-bright" />
-              {LINKS.email}
-            </a>
+
+            {/* Email removed from footer (no mailto link rendered) */}
+            <div className="mt-5 text-sm font-display uppercase tracking-[0.18em] text-foreground">
+              {/* If you want non-clickable contact text, add it here */}
+            </div>
+
             <a
               href={LINKS.instagram}
               target="_blank"
