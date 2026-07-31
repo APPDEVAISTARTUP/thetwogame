@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
-import { FUNDING_GOAL, FUNDING_RAISED, formatInr } from "@/config/support";
 import { CinematicButton, Reveal, Section, SectionHeading } from "./primitives";
 
 const tiers = [
@@ -26,8 +25,6 @@ const tiers = [
 ];
 
 export function Support() {
-  const percent = Math.min(100, Math.round((FUNDING_RAISED / FUNDING_GOAL) * 100));
-
   return (
     <Section id="support" className="hairline">
       <SectionHeading
@@ -35,28 +32,6 @@ export function Support() {
         title="Fund an independent AAA ambition"
         description="TWO is funded entirely by people who want it to exist. Every contribution goes into the build."
       />
-
-      <Reveal delay={0.1}>
-        <div className="mt-14 border border-border bg-card p-6 md:p-8">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div className="font-display text-3xl text-foreground md:text-4xl">
-              {formatInr(FUNDING_RAISED)}
-              <span className="ml-3 text-sm tracking-[0.2em] text-muted-foreground">
-                of {formatInr(FUNDING_GOAL)}
-              </span>
-            </div>
-            <span className="text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">
-              {percent}% funded
-            </span>
-          </div>
-          <div className="mt-6 h-1.5 w-full overflow-hidden bg-secondary">
-            <div
-              style={{ width: `${percent}%` }}
-              className="h-full bg-linear-to-r from-blood to-blood-bright transition-all duration-700"
-            />
-          </div>
-        </div>
-      </Reveal>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
         {tiers.map((t, i) => (
