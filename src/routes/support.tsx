@@ -32,12 +32,36 @@ export const Route = createFileRoute("/support")({
 });
 
 const helps = [
-  { icon: Boxes, title: "Better Game Assets", text: "Higher fidelity props, weapons and characters that hold up in close-up shots." },
-  { icon: Move3d, title: "Motion Capture & Animation", text: "Believable movement, melee weight and cinematic story beats." },
-  { icon: Trees, title: "Environment Art", text: "Denser streets, richer interiors and a world worth exploring slowly." },
-  { icon: AudioLines, title: "Sound Design", text: "Foley, ambience and a score that makes silence terrifying." },
-  { icon: Bug, title: "Testing", text: "Playtesters and devices to catch what one pair of eyes always misses." },
-  { icon: Wallet, title: "Development Costs", text: "Engine plugins, licences, hardware and the time to keep building." },
+  {
+    icon: Boxes,
+    title: "Better Game Assets",
+    text: "Higher fidelity props, weapons and characters that hold up in close-up shots.",
+  },
+  {
+    icon: Move3d,
+    title: "Motion Capture & Animation",
+    text: "Believable movement, melee weight and cinematic story beats.",
+  },
+  {
+    icon: Trees,
+    title: "Environment Art",
+    text: "Denser streets, richer interiors and a world worth exploring slowly.",
+  },
+  {
+    icon: AudioLines,
+    title: "Sound Design",
+    text: "Foley, ambience and a score that makes silence terrifying.",
+  },
+  {
+    icon: Bug,
+    title: "Testing",
+    text: "Playtesters and devices to catch what one pair of eyes always misses.",
+  },
+  {
+    icon: Wallet,
+    title: "Development Costs",
+    text: "Engine plugins, licences, hardware and the time to keep building.",
+  },
 ];
 
 const rewards = [
@@ -177,7 +201,6 @@ function SupportPage() {
             <DonationPanel />
           </div>
         </Section>
-
 
         {/* How donations help */}
         <Section className="hairline">

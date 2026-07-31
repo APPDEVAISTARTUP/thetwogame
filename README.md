@@ -22,7 +22,7 @@ The game focuses on:
 
 ## Official Website
 
-🌐 **https://playtwo.in** *(Launching Soon)*
+🌐 **https://playtwo.in** _(Launching Soon)_
 
 ---
 

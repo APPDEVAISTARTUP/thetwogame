@@ -1,24 +1,43 @@
-import {
-  Backpack,
-  Compass,
-  Crosshair,
-  Eye,
-  Hammer,
-  Map,
-  ScrollText,
-  Sparkles,
-} from "lucide-react";
+import { Backpack, Compass, Crosshair, Eye, Hammer, Map, ScrollText, Sparkles } from "lucide-react";
 import { Reveal, Section, SectionHeading } from "./primitives";
 
 const features = [
-  { icon: Map, title: "Open World", text: "A single continuous city and countryside, no loading walls." },
-  { icon: Crosshair, title: "Zombie Survival", text: "Grounded threat design. No superpowers, no arcade waves." },
-  { icon: Compass, title: "Dynamic Combat", text: "Weight, stamina and consequence in every encounter." },
-  { icon: Eye, title: "Immersive Exploration", text: "Silence, light and sound guide you — not waypoints." },
-  { icon: Backpack, title: "Inventory", text: "Space is scarce. What you carry is what you become." },
+  {
+    icon: Map,
+    title: "Open World",
+    text: "A single continuous city and countryside, no loading walls.",
+  },
+  {
+    icon: Crosshair,
+    title: "Zombie Survival",
+    text: "Grounded threat design. No superpowers, no arcade waves.",
+  },
+  {
+    icon: Compass,
+    title: "Dynamic Combat",
+    text: "Weight, stamina and consequence in every encounter.",
+  },
+  {
+    icon: Eye,
+    title: "Immersive Exploration",
+    text: "Silence, light and sound guide you — not waypoints.",
+  },
+  {
+    icon: Backpack,
+    title: "Inventory",
+    text: "Space is scarce. What you carry is what you become.",
+  },
   { icon: Hammer, title: "Crafting", text: "Improvise from what a collapsing city leaves behind." },
-  { icon: ScrollText, title: "Environmental Storytelling", text: "Rooms remember the people who fled them." },
-  { icon: Sparkles, title: "AAA Visuals", text: "Unreal Engine 5, Lumen and Nanite, cinematic grading." },
+  {
+    icon: ScrollText,
+    title: "Environmental Storytelling",
+    text: "Rooms remember the people who fled them.",
+  },
+  {
+    icon: Sparkles,
+    title: "AAA Visuals",
+    text: "Unreal Engine 5, Lumen and Nanite, cinematic grading.",
+  },
 ];
 
 export function Features() {

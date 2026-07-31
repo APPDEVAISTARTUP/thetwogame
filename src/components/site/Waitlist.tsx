@@ -89,39 +89,39 @@ export function Waitlist() {
 
           <Reveal delay={0.24}>
             <form onSubmit={onSubmit} noValidate className="mt-12 flex flex-col gap-4">
-                <input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Name"
-                  required
-                  maxLength={100}
-                  autoComplete="name"
-                  aria-label="Name"
-                  className="w-full border border-border bg-background/60 px-6 py-4 text-sm tracking-wide text-foreground outline-hidden transition-colors duration-300 placeholder:text-muted-foreground focus:border-blood"
-                />
-                <input
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  type="email"
-                  placeholder="Email"
-                  required
-                  maxLength={255}
-                  autoComplete="email"
-                  inputMode="email"
-                  aria-label="Email"
-                  className="w-full border border-border bg-background/60 px-6 py-4 text-sm tracking-wide text-foreground outline-hidden transition-colors duration-300 placeholder:text-muted-foreground focus:border-blood"
-                />
-                {error && (
-                  <p role="alert" className="text-left text-xs tracking-wide text-destructive">
-                    {error}
-                  </p>
-                )}
-                <CinematicButton type="submit" className="w-full" disabled={loading}>
-                  {loading ? "Joining…" : "Join Waitlist"}
-                </CinematicButton>
-                <p className="text-[0.65rem] uppercase tracking-[0.22em] text-muted-foreground">
-                  No spam. Unsubscribe anytime.
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Name"
+                required
+                maxLength={100}
+                autoComplete="name"
+                aria-label="Name"
+                className="w-full border border-border bg-background/60 px-6 py-4 text-sm tracking-wide text-foreground outline-hidden transition-colors duration-300 placeholder:text-muted-foreground focus:border-blood"
+              />
+              <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                placeholder="Email"
+                required
+                maxLength={255}
+                autoComplete="email"
+                inputMode="email"
+                aria-label="Email"
+                className="w-full border border-border bg-background/60 px-6 py-4 text-sm tracking-wide text-foreground outline-hidden transition-colors duration-300 placeholder:text-muted-foreground focus:border-blood"
+              />
+              {error && (
+                <p role="alert" className="text-left text-xs tracking-wide text-destructive">
+                  {error}
                 </p>
+              )}
+              <CinematicButton type="submit" className="w-full" disabled={loading}>
+                {loading ? "Joining…" : "Join Waitlist"}
+              </CinematicButton>
+              <p className="text-[0.65rem] uppercase tracking-[0.22em] text-muted-foreground">
+                No spam. Unsubscribe anytime.
+              </p>
             </form>
           </Reveal>
         </div>
