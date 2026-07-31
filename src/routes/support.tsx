@@ -9,7 +9,6 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { BrandWordmark } from "@/components/site/BrandLogo";
 import { Reveal, Section, SectionHeading } from "@/components/site/primitives";
 import { DonationPanel } from "@/components/support/DonationPanel";
-import { FUNDING_GOAL, FUNDING_RAISED, formatInr } from "@/config/support";
 import { supabase } from "@/integrations/supabase/client";
 
 const description =
@@ -83,8 +82,6 @@ const faqs = [
 ];
 
 function SupportPage() {
-  const percent = Math.min(100, Math.round((FUNDING_RAISED / FUNDING_GOAL) * 100));
-
   const { data: supporters, isLoading } = useQuery({
     queryKey: ["supporters"],
     queryFn: async () => {
@@ -180,44 +177,6 @@ function SupportPage() {
           </div>
         </Section>
 
-        {/* Progress */}
-        <Section className="hairline">
-          <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
-            <SectionHeading eyebrow="Progress" title="Funding the vertical slice" />
-            <Reveal>
-              <div className="border border-border bg-card p-8 md:p-12">
-                <div className="flex flex-wrap items-end justify-between gap-6">
-                  <div>
-                    <div className="eyebrow">Raised</div>
-                    <div className="mt-3 font-display text-4xl text-foreground md:text-6xl">
-                      {formatInr(FUNDING_RAISED)}
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="eyebrow">Goal</div>
-                    <div className="mt-3 font-display text-2xl text-muted-foreground md:text-3xl">
-                      {formatInr(FUNDING_GOAL)}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-10 h-2 w-full overflow-hidden bg-secondary">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${percent}%` }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-                    className="h-full bg-linear-to-r from-blood to-blood-bright"
-                  />
-                </div>
-                <div className="mt-4 flex justify-between text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">
-                  <span>{percent}% funded</span>
-                  <span>{formatInr(Math.max(0, FUNDING_GOAL - FUNDING_RAISED))} to go</span>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </Section>
 
         {/* How donations help */}
         <Section className="hairline">
