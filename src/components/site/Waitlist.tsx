@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { motion } from "framer-motion";
+import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { z } from "zod";
 import ctaCity from "@/assets/cta-city.jpg";
@@ -17,7 +17,7 @@ const schema = z.object({
 });
 
 export function Waitlist() {
-  const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [name, setName] = useState("");
@@ -54,7 +54,10 @@ export function Waitlist() {
     }
 
     toast.success("You're on the waitlist.");
-    setSubmitted(true);
+    void navigate({
+      to: "/waitlist/success",
+      search: { name: parsed.data.name, email: parsed.data.email.toLowerCase() },
+    });
   };
 
   return (
@@ -85,23 +88,7 @@ export function Waitlist() {
           </Reveal>
 
           <Reveal delay={0.24}>
-            {submitted ? (
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="glass-panel mt-12 p-10"
-              >
-                <p className="font-display text-2xl uppercase tracking-[0.1em] text-foreground">
-                  You are on the list
-                </p>
-                <p className="mt-3 text-sm text-muted-foreground">
-                  Welcome, {name.trim()}. We saved{" "}
-                  <span className="text-foreground">{email.trim().toLowerCase()}</span> — watch your
-                  inbox when the closed demo opens.
-                </p>
-              </motion.div>
-            ) : (
-              <form onSubmit={onSubmit} noValidate className="mt-12 flex flex-col gap-4">
+            <form onSubmit={onSubmit} noValidate className="mt-12 flex flex-col gap-4">
                 <input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -135,8 +122,7 @@ export function Waitlist() {
                 <p className="text-[0.65rem] uppercase tracking-[0.22em] text-muted-foreground">
                   No spam. Unsubscribe anytime.
                 </p>
-              </form>
-            )}
+            </form>
           </Reveal>
         </div>
       </div>

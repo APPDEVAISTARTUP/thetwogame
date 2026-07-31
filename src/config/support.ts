@@ -4,7 +4,7 @@
  */
 
 /** UPI ID that receives donations. Replace with your real VPA. */
-export const UPI_ID = "shadestudios@upi";
+export const UPI_ID = "10aashu@fam";
 
 /** Name shown inside the UPI app when a supporter pays. */
 export const UPI_PAYEE_NAME = "Shade Studios";
@@ -17,7 +17,7 @@ export const FUNDING_RAISED = 18500;
 
 /** Official social + contact links. */
 export const LINKS = {
-  instagram: "https://www.instagram.com/shadestudios.in",
+  instagram: "https://www.instagram.com/shadestudiosofficial/",
   discord: "https://discord.gg/two",
   youtube: "https://youtube.com",
   steam: "https://store.steampowered.com",

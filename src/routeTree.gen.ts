@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WaitlistSuccessRouteImport } from './routes/waitlist.success'
 
 const SupportRoute = SupportRouteImport.update({
   id: '/support',
@@ -28,35 +29,44 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WaitlistSuccessRoute = WaitlistSuccessRouteImport.update({
+  id: '/waitlist/success',
+  path: '/waitlist/success',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/support': typeof SupportRoute
+  '/waitlist/success': typeof WaitlistSuccessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/support': typeof SupportRoute
+  '/waitlist/success': typeof WaitlistSuccessRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/support': typeof SupportRoute
+  '/waitlist/success': typeof WaitlistSuccessRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sitemap.xml' | '/support'
+  fullPaths: '/' | '/sitemap.xml' | '/support' | '/waitlist/success'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sitemap.xml' | '/support'
-  id: '__root__' | '/' | '/sitemap.xml' | '/support'
+  to: '/' | '/sitemap.xml' | '/support' | '/waitlist/success'
+  id: '__root__' | '/' | '/sitemap.xml' | '/support' | '/waitlist/success'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SupportRoute: typeof SupportRoute
+  WaitlistSuccessRoute: typeof WaitlistSuccessRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/waitlist/success': {
+      id: '/waitlist/success'
+      path: '/waitlist/success'
+      fullPath: '/waitlist/success'
+      preLoaderRoute: typeof WaitlistSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SupportRoute: SupportRoute,
+  WaitlistSuccessRoute: WaitlistSuccessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
