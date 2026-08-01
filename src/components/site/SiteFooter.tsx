@@ -84,10 +84,13 @@ export function SiteFooter() {
               open.
             </p>
 
-            {/* Email removed from footer (no mailto link rendered) */}
-            <div className="mt-5 text-sm font-display uppercase tracking-[0.18em] text-foreground">
-              {/* If you want non-clickable contact text, add it here */}
-            </div>
+            <a
+              href="mailto:progamedev@gmail.com"
+              className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-foreground transition-colors duration-300 hover:text-blood-bright"
+            >
+              progamedev@gmail.com
+            </a>
+
 
             <a
               href={LINKS.instagram}
