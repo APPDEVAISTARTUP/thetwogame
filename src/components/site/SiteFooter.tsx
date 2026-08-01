@@ -91,7 +91,6 @@ export function SiteFooter() {
               progamedev@gmail.com
             </a>
 
-            <div className="mt-5 text-sm font-display uppercase tracking-[0.18em] text-foreground">
 
             <a
               href={LINKS.instagram}
