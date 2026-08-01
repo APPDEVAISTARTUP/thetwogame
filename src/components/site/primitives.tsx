@@ -54,7 +54,7 @@ export function SectionHeading({
         </div>
       </Reveal>
       <Reveal delay={0.08}>
-        <h2 className="display-lg mt-6 text-foreground">{title}</h2>
+        <h2 className="display-lg text-balance-tight mt-6 text-foreground">{title}</h2>
       </Reveal>
       {description && (
         <Reveal delay={0.16}>

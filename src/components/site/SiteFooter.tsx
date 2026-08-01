@@ -43,7 +43,7 @@ export function SiteFooter() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={s.label}
-                  className="group flex h-11 w-11 items-center justify-center border border-border text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-blood"
+                  className="group flex h-11 w-11 items-center justify-center border border-border text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-blood hover:bg-blood/10"
                 >
                   <s.icon size={16} className="transition-colors group-hover:text-blood-bright" />
                 </a>
