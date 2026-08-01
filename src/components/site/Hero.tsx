@@ -12,7 +12,11 @@ export function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <div id="top" ref={ref} className="relative grain h-[100svh] min-h-[680px] overflow-hidden">
+    <div
+      id="top"
+      ref={ref}
+      className="relative grain vignette h-[100svh] min-h-[680px] overflow-hidden"
+    >
       <motion.img
         src={heroCity}
         alt="Rain-soaked city street collapsing during the first hours of the outbreak"
@@ -23,6 +27,7 @@ export function Hero() {
       />
       <div className="absolute inset-0 bg-linear-to-b from-background/85 via-background/35 to-background" />
       <div className="absolute inset-0 bg-linear-to-r from-background/80 via-transparent to-background/50" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-background to-transparent" />
 
       <motion.div
         style={{ opacity }}
@@ -43,7 +48,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.1, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className="display-xl mt-4 max-w-4xl text-foreground"
+          className="display-xl text-balance-tight mt-4 max-w-4xl text-foreground [text-shadow:0_2px_40px_rgba(0,0,0,0.6)]"
         >
           Open World
           <br />

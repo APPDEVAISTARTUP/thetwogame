@@ -28,11 +28,17 @@ export function SiteHeader() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-500",
-        scrolled ? "glass-panel border-x-0 border-t-0 py-3" : "border-transparent py-6",
+        scrolled
+          ? "glass-panel border-x-0 border-t-0 py-3 shadow-[0_10px_40px_-24px_rgba(0,0,0,0.9)]"
+          : "border-transparent py-6",
       )}
     >
       <div className="container-x flex items-center justify-between">
-        <Link to="/" aria-label="TWO — home" className="block shrink-0">
+        <Link
+          to="/"
+          aria-label="TWO — home"
+          className="block shrink-0 transition-opacity duration-300 hover:opacity-80"
+        >
           <BrandWordmark className="w-24 md:w-28" />
         </Link>
 
@@ -57,7 +63,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-3">
           <a
             href="/#waitlist"
-            className="hidden border border-border px-6 py-3 font-display text-xs uppercase tracking-[0.28em] transition-colors duration-300 hover:border-blood sm:inline-block"
+            className="hidden border border-border px-6 py-3 font-display text-xs uppercase tracking-[0.28em] transition-all duration-300 hover:border-blood hover:bg-blood/10 hover:shadow-[0_0_30px_-10px_var(--color-blood-bright)] sm:inline-block"
           >
             Join Waitlist
           </a>
