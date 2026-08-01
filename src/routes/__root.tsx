@@ -80,7 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "TWO — Open World Zombie Survival" },
+      { title: "TWO — Open World Zombie Survival Game" },
       {
         name: "description",
         content:
@@ -90,6 +90,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:site_name", content: "TWO" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "TWO — Open World Zombie Survival Game" },
+      { name: "twitter:title", content: "TWO — Open World Zombie Survival Game" },
+      { property: "og:description", content: "TWO is a cinematic open-world zombie survival game set during the outbreak. Built in Unreal Engine 5 by a solo developer in India." },
+      { name: "twitter:description", content: "TWO is a cinematic open-world zombie survival game set during the outbreak. Built in Unreal Engine 5 by a solo developer in India." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/119e7e9c-d266-4689-85d3-5b8aeb5811f9" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/119e7e9c-d266-4689-85d3-5b8aeb5811f9" },
     ],
     links: [
       {
