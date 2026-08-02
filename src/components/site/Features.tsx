@@ -55,10 +55,15 @@ export function Features() {
             <div className="group relative h-full overflow-hidden bg-background p-8 transition-colors duration-500 hover:bg-card md:p-10">
               <span className="absolute inset-x-0 top-0 h-px w-0 bg-blood transition-all duration-700 group-hover:w-full" />
               <span className="pointer-events-none absolute -right-16 -top-16 h-32 w-32 rounded-full bg-blood/0 blur-3xl transition-all duration-700 group-hover:bg-blood/25" />
-              <f.icon
-                size={22}
-                className="text-muted-foreground transition-all duration-500 group-hover:-translate-y-0.5 group-hover:text-blood-bright"
-              />
+              <div className="flex items-center justify-between">
+                <f.icon
+                  size={22}
+                  className="text-muted-foreground transition-all duration-500 group-hover:-translate-y-0.5 group-hover:text-blood-bright"
+                />
+                <span className="index-label opacity-40 transition-opacity duration-500 group-hover:opacity-100">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+              </div>
               <h3 className="mt-8 font-display text-xl uppercase tracking-[0.12em] text-foreground transition-transform duration-500 group-hover:translate-x-0.5">
                 {f.title}
               </h3>
