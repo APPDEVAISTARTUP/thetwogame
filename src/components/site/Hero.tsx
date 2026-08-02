@@ -15,7 +15,7 @@ export function Hero() {
     <div
       id="top"
       ref={ref}
-      className="relative grain vignette h-[100svh] min-h-[680px] overflow-hidden"
+      className="relative grain vignette scanlines h-[100svh] min-h-[680px] overflow-hidden"
     >
       <motion.img
         src={heroCity}
@@ -28,6 +28,10 @@ export function Hero() {
       <div className="absolute inset-0 bg-linear-to-b from-background/85 via-background/35 to-background" />
       <div className="absolute inset-0 bg-linear-to-r from-background/80 via-transparent to-background/50" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-background to-transparent" />
+      <div
+        className="pointer-events-none absolute -left-32 top-1/3 h-96 w-96 rounded-full bg-blood/25 blur-[140px]"
+        style={{ animation: "ember-pulse 7s ease-in-out infinite" }}
+      />
 
       <motion.div
         style={{ opacity }}
