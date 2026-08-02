@@ -96,6 +96,59 @@
   mask-image: linear-gradient(to bottom, transparent, black 8%, black 92%, transparent);
 }
 
+@utility scanlines {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.25;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 2px,
+      rgba(0, 0, 0, 0.5) 3px
+    );
+  }
+}
+
+@utility hover-lift {
+  transition:
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px -30px color-mix(in oklab, var(--color-blood-bright) 70%, transparent);
+  }
+}
+
+@utility index-label {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  color: color-mix(in oklab, var(--color-blood-bright) 80%, transparent);
+}
+
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes ember-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
 /*
  * Design system definition.
  *
