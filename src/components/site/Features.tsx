@@ -45,6 +45,7 @@ export function Features() {
     <Section id="features" className="hairline">
       <SectionHeading
         eyebrow="Gameplay"
+        index="01"
         title="Every system serves the tension"
         description="No clutter. No filler. Each mechanic exists to make the world feel real and the next street feel dangerous."
       />
@@ -52,9 +53,12 @@ export function Features() {
       <div className="mt-20 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
         {features.map((f, i) => (
           <Reveal key={f.title} delay={(i % 4) * 0.07}>
-            <div className="group relative h-full overflow-hidden bg-background p-8 transition-colors duration-500 hover:bg-card md:p-10">
+            <div className="hud-frame group relative h-full overflow-hidden bg-background p-8 transition-colors duration-500 hover:bg-card md:p-10">
               <span className="absolute inset-x-0 top-0 h-px w-0 bg-blood transition-all duration-700 group-hover:w-full" />
               <span className="pointer-events-none absolute -right-16 -top-16 h-32 w-32 rounded-full bg-blood/0 blur-3xl transition-all duration-700 group-hover:bg-blood/25" />
+              <span className="pointer-events-none absolute -bottom-6 -right-2 font-display text-[5.5rem] leading-none text-foreground/[0.03] transition-all duration-700 group-hover:text-blood/15">
+                {String(i + 1).padStart(2, "0")}
+              </span>
               <div className="flex items-center justify-between">
                 <f.icon
                   size={22}
