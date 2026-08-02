@@ -39,26 +39,36 @@ export function SectionHeading({
   title,
   description,
   align = "left",
+  index,
 }: {
   eyebrow: string;
   title: string;
   description?: string;
   align?: "left" | "center";
+  index?: string;
 }) {
   return (
     <div className={cn("max-w-3xl", align === "center" && "mx-auto text-center")}>
       <Reveal>
-        <div className="flex items-center gap-4">
+        <div className={cn("flex items-center gap-4", align === "center" && "justify-center")}>
           {align === "left" && <span className="h-px w-10 bg-blood" />}
           <span className="eyebrow">{eyebrow}</span>
+          {index && <span className="index-label opacity-60">/ {index}</span>}
         </div>
       </Reveal>
       <Reveal delay={0.08}>
-        <h2 className="display-lg text-balance-tight mt-6 text-foreground">{title}</h2>
+        <h2 className="display-lg text-balance-tight mt-6 text-foreground [text-shadow:0_2px_40px_rgba(0,0,0,0.6)]">
+          {title}
+        </h2>
       </Reveal>
       {description && (
         <Reveal delay={0.16}>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
+          <p
+            className={cn(
+              "mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg",
+              align === "center" && "mx-auto",
+            )}
+          >
             {description}
           </p>
         </Reveal>

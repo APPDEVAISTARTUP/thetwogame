@@ -149,6 +149,110 @@
   }
 }
 
+@keyframes sweep-y {
+  0% {
+    transform: translateY(-10vh);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(110vh);
+    opacity: 0;
+  }
+}
+
+@keyframes hud-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+
+@keyframes flicker-in {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  14% {
+    opacity: 0.1;
+  }
+  22% {
+    opacity: 0.85;
+  }
+  28% {
+    opacity: 0.25;
+  }
+  40%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@utility hud-label {
+  font-family: var(--font-display);
+  font-size: 0.625rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-ash) 90%, transparent);
+}
+
+@utility hud-frame {
+  position: relative;
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    pointer-events: none;
+    border-color: color-mix(in oklab, var(--color-blood-bright) 70%, transparent);
+  }
+  &::before {
+    top: 0;
+    left: 0;
+    border-top: 1px solid;
+    border-left: 1px solid;
+  }
+  &::after {
+    bottom: 0;
+    right: 0;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+  }
+}
+
+@utility text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in oklab, var(--color-foreground) 32%, transparent);
+}
+
+@utility letterbox {
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: clamp(18px, 3.5vh, 42px);
+    background: var(--color-background);
+    z-index: 20;
+    pointer-events: none;
+  }
+  &::before {
+    top: 0;
+  }
+  &::after {
+    bottom: 0;
+  }
+}
+
 /*
  * Design system definition.
  *
