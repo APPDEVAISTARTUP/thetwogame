@@ -1,6 +1,6 @@
 import { Reveal, Section, SectionHeading } from "./primitives";
 
-const founders = ["MuzamaPlayz"];
+const founders = ["MuzmaPlayz"];
 const remaining = 99 - founders.length;
 
 export function Supporters() {
