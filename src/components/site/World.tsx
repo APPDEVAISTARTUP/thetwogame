@@ -10,39 +10,39 @@ import { Reveal, Section, SectionHeading } from "./primitives";
 const places = [
   {
     index: "01",
-    name: "St. Mercy Hospital",
+    name: "Civil Hospital, Sector 9",
     image: hospital,
-    text: "Triage tents in the car park, corridors sealed in plastic. The first place that understood what was coming, and the first to fall.",
+    text: "Triage tents in the parking lot, corridors sealed in blue tarp, ambulances stacked at the gate. The first place that understood what was coming, and the first to fall.",
   },
   {
     index: "02",
-    name: "Checkpoint Delta",
+    name: "NH-48 Army Checkpost",
     image: military,
-    text: "Floodlights, sandbags and a queue of cars that never moves. The army is still following orders. For now.",
+    text: "Floodlights, sandbags and a queue of trucks that never moves. Jawans are still following orders. For now.",
   },
   {
     index: "03",
-    name: "The Highway",
+    name: "The Expressway",
     image: highway,
-    text: "Forty kilometres of abandoned evacuation. Burning vehicles mark where the panic finally caught up.",
+    text: "Forty kilometres of abandoned evacuation — buses, autos, a burning tanker. The dhabas are still lit, and nobody is inside them.",
   },
   {
     index: "04",
-    name: "Blackpine Forest",
+    name: "Sal Forest, Outer Belt",
     image: forest,
-    text: "Cold fog, no signal, no lights. The quietest place in the country and the easiest place to disappear.",
+    text: "Cold fog off the river, no signal, no lights. A forgotten forest shrine and the easiest place in the country to disappear.",
   },
   {
     index: "05",
-    name: "Line 4 — Abandoned Metro",
+    name: "Metro Line 4 — Below Ground",
     image: metro,
-    text: "Power is gone below ground. Your flashlight is a promise you make to whatever is already down there.",
+    text: "Third rail is dead, station shutters half-down, luggage still on the platform. Your flashlight is a promise you make to whatever is already down there.",
   },
   {
     index: "06",
-    name: "Facility Two",
+    name: "Facility Two — Restricted",
     image: lab,
-    text: "It is not on any map. It has your government's seal on the door. It has answers you may not survive reading.",
+    text: "It is not on any map. It carries a national emblem on the door. It has answers you may not survive reading.",
   },
 ];
 
@@ -51,8 +51,8 @@ export function World() {
     <Section id="world" className="hairline">
       <SectionHeading
         eyebrow="The World"
-        title="Seven regions. One collapsing night."
-        description="Locations built to be believed before they are feared — real architecture, real light, real silence."
+        title="One Indian city. One collapsing night."
+        description="Locations built to be believed before they are feared — Indian streets, Indian light, Indian silence."
       />
 
       <div className="mt-24 space-y-28 md:space-y-40">
