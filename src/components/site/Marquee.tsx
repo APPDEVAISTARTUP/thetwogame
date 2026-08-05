@@ -1,6 +1,7 @@
 const ITEMS = [
   "Unreal Engine 5",
   "Open World",
+  "Set In India",
   "Solo Developed",
   "During The Outbreak",
   "Cinematic Survival",
