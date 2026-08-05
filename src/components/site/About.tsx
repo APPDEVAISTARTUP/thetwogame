@@ -26,18 +26,20 @@ export function About() {
         </Reveal>
 
         <div className="order-1 lg:order-2">
-          <SectionHeading eyebrow="The Story" title="It did not end. It is ending right now." />
+          <SectionHeading eyebrow="The Story" title="India is falling. Tonight." />
           <div className="mt-8 space-y-6 text-base leading-relaxed text-muted-foreground md:text-lg">
             <p>
-              There is no wasteland yet. Streetlights still work. News anchors are still on air.
-              Somewhere a phone is ringing in an empty apartment. TWO drops you into the first hours
-              of the collapse, when nobody understands what is happening and everybody believes it
-              will be over by morning.
+              There is no wasteland yet. Sodium streetlights still hum over the flyover. A news
+              anchor is still reading the 9 o'clock bulletin. A temple bell rings somewhere in an
+              empty lane. TWO drops you into the first hours of the collapse in an Indian city —
+              when nobody understands what is happening and everybody believes it will be over by
+              morning.
             </p>
             <p>
-              You are not a soldier. You are not immune. Every bullet is counted, every door is a
-              decision, every stranger is a risk. Survive long enough and the world stops being
-              random — and the truth beneath the outbreak begins to surface.
+              You are not a soldier. You are not immune. You are one more person stuck between a
+              blocked highway and a sealed colony gate. Every bullet is counted, every shutter is a
+              decision, every stranger is a risk. Survive long enough and the truth beneath the
+              outbreak begins to surface.
             </p>
           </div>
 
