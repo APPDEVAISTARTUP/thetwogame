@@ -75,20 +75,21 @@ export function Hero() {
 
       <motion.div
         style={{ opacity }}
-        className="container-x relative z-10 flex h-full flex-col justify-end pb-24 pt-32 md:justify-center md:pb-28"
+        className="container-x relative z-10 flex h-full flex-col items-center justify-end pb-24 pt-32 text-center md:justify-center md:pb-28"
       >
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.15 }}
-          className="mb-8 flex items-center gap-4"
+          className="mb-8 inline-flex items-center gap-3 rounded-full bg-blood px-6 py-2"
         >
           <span
-            className="h-1.5 w-1.5 bg-blood-bright"
+            className="h-1.5 w-1.5 rounded-full bg-primary-foreground"
             style={{ animation: "hud-blink 1.8s ease-in-out infinite" }}
           />
-          <span className="hud-label">Day 01 — Outbreak Begins</span>
-          <span className="hidden h-px w-16 bg-border sm:block" />
+          <span className="font-display text-[0.6rem] uppercase tracking-[0.3em] text-primary-foreground">
+            Day 01 — Outbreak Begins
+          </span>
         </motion.div>
 
         <motion.img
@@ -97,7 +98,7 @@ export function Hero() {
           initial={{ opacity: 0, scale: 1.08 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-          className="w-[min(46vw,240px)] max-w-full drop-shadow-[0_10px_50px_rgba(0,0,0,0.8)]"
+          className="w-[min(38vw,190px)] max-w-full drop-shadow-[0_10px_50px_rgba(0,0,0,0.8)]"
           width={633}
           height={331}
         />
@@ -139,7 +140,7 @@ export function Hero() {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1.2, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-8 h-px w-full max-w-2xl origin-left bg-linear-to-r from-blood-bright via-blood/40 to-transparent"
+          className="mt-8 h-px w-full max-w-2xl bg-linear-to-r from-transparent via-blood-bright to-transparent"
         />
 
         <motion.p
@@ -156,27 +157,41 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1.15 }}
-          className="mt-10 flex flex-wrap items-center gap-4"
+          className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
           <a href="#waitlist">
-            <CinematicButton>Join Waitlist</CinematicButton>
+            <CinematicButton variant="pill">Join Waitlist</CinematicButton>
           </a>
           <a href="/support">
-            <CinematicButton variant="outline">Support TWO</CinematicButton>
+            <CinematicButton
+              variant="outline"
+              className="rounded-full px-9 py-3 text-[0.7rem] tracking-[0.22em]"
+            >
+              Support TWO
+            </CinematicButton>
           </a>
-          <CinematicButton variant="ghost" disabled>
-            <Play size={14} /> Trailer — Coming Soon
-          </CinematicButton>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.3 }}
+          className="mt-10 flex flex-col items-center gap-3"
+        >
+          <span className="grid h-14 w-14 place-items-center rounded-full border border-border/80 text-foreground/70 transition-colors duration-500 hover:border-blood-bright hover:text-blood-bright">
+            <Play size={16} />
+          </span>
+          <span className="hud-label text-[0.55rem]">Trailer — Coming Soon</span>
         </motion.div>
 
         <motion.dl
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2, delay: 1.35 }}
-          className="mt-14 hidden max-w-3xl grid-cols-4 gap-px border border-border bg-border md:grid"
+          className="mt-14 hidden w-full max-w-3xl grid-cols-4 gap-px border border-border bg-border md:grid"
         >
           {META.map((m) => (
-            <div key={m.k} className="bg-background/70 px-5 py-4 backdrop-blur-sm">
+            <div key={m.k} className="bg-background/70 px-5 py-4 text-left backdrop-blur-sm">
               <dt className="hud-label text-[0.55rem]">{m.k}</dt>
               <dd className="mt-2 font-display text-xs uppercase tracking-[0.18em] text-foreground">
                 {m.v}
