@@ -6,6 +6,41 @@ import ctaCity from "@/assets/cta-city.jpg";
 import { supabase } from "@/integrations/supabase/client";
 import { CinematicButton, Reveal } from "./primitives";
 
+const TICKER = [
+  "Recruit registered — Delhi",
+  "Recruit registered — Mumbai",
+  "Closed demo slots limited",
+  "Recruit registered — Pune",
+  "Development letters inbound",
+  "Recruit registered — Bengaluru",
+  "Night one access",
+  "Recruit registered — Kolkata",
+];
+
+function WaitlistTicker() {
+  const loop = [...TICKER, ...TICKER];
+  return (
+    <div className="relative mx-auto mb-14 max-w-4xl overflow-hidden border-y border-border bg-background/60">
+      <div
+        className="flex w-max gap-10 whitespace-nowrap py-3 will-change-transform"
+        style={{ animation: "marquee-x 44s linear infinite" }}
+      >
+        {loop.map((item, i) => (
+          <span
+            key={`${item}-${i}`}
+            className="flex items-center gap-10 font-display text-[0.62rem] uppercase tracking-[0.34em] text-muted-foreground"
+          >
+            <span>{item}</span>
+            <span className="h-1 w-1 rotate-45 bg-blood" />
+          </span>
+        ))}
+      </div>
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-linear-to-r from-background to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-linear-to-l from-background to-transparent" />
+    </div>
+  );
+}
+
 const schema = z.object({
   name: z.string().trim().min(1, "Please enter your name").max(100, "Name is too long"),
   email: z
