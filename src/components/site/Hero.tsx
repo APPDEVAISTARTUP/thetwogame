@@ -73,6 +73,15 @@ export function Hero() {
         </span>
       </div>
 
+      {/* right release tab */}
+      <div className="absolute right-0 top-1/2 hidden -translate-y-1/2 lg:block">
+        <div className="bg-blood px-2 py-6">
+          <span className="block whitespace-nowrap font-display text-[0.6rem] uppercase tracking-[0.34em] text-primary-foreground [writing-mode:vertical-rl]">
+            In Development — 2026
+          </span>
+        </div>
+      </div>
+
       <motion.div
         style={{ opacity }}
         className="container-x relative z-10 flex h-full flex-col items-center justify-end pb-24 pt-32 text-center md:justify-center md:pb-28"
