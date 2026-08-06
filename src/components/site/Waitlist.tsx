@@ -23,6 +23,16 @@ export function Waitlist() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
+  const filled = (name.trim() ? 1 : 0) + (schema.shape.email.safeParse(email).success ? 1 : 0);
+  const progress = loading ? 100 : (filled / 2) * 100;
+  const statusLabel = loading
+    ? "Transmitting…"
+    : filled === 0
+      ? "Awaiting operator ID"
+      : filled === 1
+        ? "One field remaining"
+        : "Ready to transmit";
+
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -74,6 +84,7 @@ export function Waitlist() {
       <div className="absolute inset-0 bg-linear-to-b from-background via-transparent to-background" />
 
       <div className="container-x relative">
+        <WaitlistTicker />
         <div className="mx-auto max-w-xl text-center">
           <Reveal>
             <span className="eyebrow">Waitlist</span>
@@ -89,6 +100,21 @@ export function Waitlist() {
 
           <Reveal delay={0.24}>
             <form onSubmit={onSubmit} noValidate className="mt-12 flex flex-col gap-4">
+              <div className="flex items-center justify-between font-display text-[0.6rem] uppercase tracking-[0.28em] text-muted-foreground">
+                <span className="flex items-center gap-2">
+                  <span
+                    className={`h-1.5 w-1.5 rotate-45 ${loading || filled === 2 ? "bg-blood-bright" : "bg-muted-foreground"}`}
+                  />
+                  {statusLabel}
+                </span>
+                <span>{Math.round(progress)}%</span>
+              </div>
+              <div className="h-px w-full bg-border">
+                <div
+                  className="h-px bg-blood-bright shadow-[0_0_12px_var(--color-blood-bright)] transition-all duration-500"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
