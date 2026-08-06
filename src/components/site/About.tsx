@@ -18,10 +18,10 @@ export function About() {
           loading="lazy"
           width={1408}
           height={1600}
-          className="h-full w-full object-cover brightness-[0.55]"
+          className="h-full w-full object-cover brightness-[0.95]"
         />
-        <div className="absolute inset-0 bg-linear-to-r from-background via-background/70 to-background/20" />
-        <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-background" />
+        <div className="absolute inset-0 bg-linear-to-r from-background via-background/55 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-background/90 via-transparent to-background/70" />
       </div>
 
       <div className="container-x relative z-10 grid items-center gap-14 lg:grid-cols-[minmax(0,1fr)_0.9fr]">
