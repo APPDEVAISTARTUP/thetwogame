@@ -46,7 +46,6 @@ export function Features() {
       <SectionHeading
         eyebrow="Gameplay"
         index="01"
-        align="center"
         title="Every system serves the tension"
         description="No clutter. No filler. Each mechanic exists to make the world feel real and the next street feel dangerous."
       />

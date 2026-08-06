@@ -95,7 +95,7 @@ export function Section({
 
 type ButtonProps = {
   children: ReactNode;
-  variant?: "primary" | "ghost" | "outline" | "pill";
+  variant?: "primary" | "ghost" | "outline";
   className?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
@@ -112,8 +112,6 @@ export function CinematicButton({
         "group relative inline-flex items-center justify-center gap-3 overflow-hidden px-8 py-4 font-display text-sm uppercase tracking-[0.28em] transition-all duration-500 disabled:opacity-50",
         variant === "primary" &&
           "bg-blood text-primary-foreground hover:bg-blood-bright hover:shadow-[0_0_44px_-8px_var(--color-blood-bright)]",
-        variant === "pill" &&
-          "rounded-full bg-blood px-9 py-3 text-[0.7rem] tracking-[0.22em] text-primary-foreground hover:bg-blood-bright hover:shadow-[0_0_44px_-8px_var(--color-blood-bright)]",
         variant === "outline" &&
           "border border-border text-foreground hover:border-blood hover:text-foreground",
         variant === "ghost" && "text-muted-foreground hover:text-foreground",
