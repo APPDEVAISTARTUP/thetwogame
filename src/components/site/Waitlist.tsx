@@ -6,6 +6,41 @@ import ctaCity from "@/assets/cta-city.jpg";
 import { supabase } from "@/integrations/supabase/client";
 import { CinematicButton, Reveal } from "./primitives";
 
+const TICKER = [
+  "Recruit registered — Delhi",
+  "Recruit registered — Mumbai",
+  "Closed demo slots limited",
+  "Recruit registered — Pune",
+  "Development letters inbound",
+  "Recruit registered — Bengaluru",
+  "Night one access",
+  "Recruit registered — Kolkata",
+];
+
+function WaitlistTicker() {
+  const loop = [...TICKER, ...TICKER];
+  return (
+    <div className="relative mx-auto mb-14 max-w-4xl overflow-hidden border-y border-border bg-background/60">
+      <div
+        className="flex w-max gap-10 whitespace-nowrap py-3 will-change-transform"
+        style={{ animation: "marquee-x 44s linear infinite" }}
+      >
+        {loop.map((item, i) => (
+          <span
+            key={`${item}-${i}`}
+            className="flex items-center gap-10 font-display text-[0.62rem] uppercase tracking-[0.34em] text-muted-foreground"
+          >
+            <span>{item}</span>
+            <span className="h-1 w-1 rotate-45 bg-blood" />
+          </span>
+        ))}
+      </div>
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-linear-to-r from-background to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-linear-to-l from-background to-transparent" />
+    </div>
+  );
+}
+
 const schema = z.object({
   name: z.string().trim().min(1, "Please enter your name").max(100, "Name is too long"),
   email: z
@@ -22,6 +57,16 @@ export function Waitlist() {
   const [error, setError] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+
+  const filled = (name.trim() ? 1 : 0) + (schema.shape.email.safeParse(email).success ? 1 : 0);
+  const progress = loading ? 100 : (filled / 2) * 100;
+  const statusLabel = loading
+    ? "Transmitting…"
+    : filled === 0
+      ? "Awaiting operator ID"
+      : filled === 1
+        ? "One field remaining"
+        : "Ready to transmit";
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -74,6 +119,7 @@ export function Waitlist() {
       <div className="absolute inset-0 bg-linear-to-b from-background via-transparent to-background" />
 
       <div className="container-x relative">
+        <WaitlistTicker />
         <div className="mx-auto max-w-xl text-center">
           <Reveal>
             <span className="eyebrow">Waitlist</span>
@@ -89,6 +135,21 @@ export function Waitlist() {
 
           <Reveal delay={0.24}>
             <form onSubmit={onSubmit} noValidate className="mt-12 flex flex-col gap-4">
+              <div className="flex items-center justify-between font-display text-[0.6rem] uppercase tracking-[0.28em] text-muted-foreground">
+                <span className="flex items-center gap-2">
+                  <span
+                    className={`h-1.5 w-1.5 rotate-45 ${loading || filled === 2 ? "bg-blood-bright" : "bg-muted-foreground"}`}
+                  />
+                  {statusLabel}
+                </span>
+                <span>{Math.round(progress)}%</span>
+              </div>
+              <div className="h-px w-full bg-border">
+                <div
+                  className="h-px bg-blood-bright shadow-[0_0_12px_var(--color-blood-bright)] transition-all duration-500"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}

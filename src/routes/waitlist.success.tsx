@@ -59,14 +59,45 @@ function WaitlistSuccess() {
       <SiteHeader />
       <main className="grain relative overflow-hidden">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(circle_at_50%_0%,var(--color-blood)/25%,transparent_70%)]" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-8 bg-background" />
 
         <section className="container-x relative pb-24 pt-36 md:pb-32 md:pt-48">
+          <div className="relative mx-auto mb-14 max-w-5xl overflow-hidden border-y border-border bg-background/60">
+            <div
+              className="flex w-max gap-10 whitespace-nowrap py-3 will-change-transform"
+              style={{ animation: "marquee-x 40s linear infinite" }}
+            >
+              {[...Array(2)].flatMap((_, r) =>
+                [
+                  "Access granted",
+                  "Operator registered",
+                  "Closed demo — pending",
+                  "Development letters — enabled",
+                  "Standby for night one",
+                ].map((t, i) => (
+                  <span
+                    key={`${r}-${i}`}
+                    className="flex items-center gap-10 font-display text-[0.62rem] uppercase tracking-[0.34em] text-blood-bright"
+                  >
+                    <span>{t}</span>
+                    <span className="h-1 w-1 rotate-45 bg-blood" />
+                  </span>
+                )),
+              )}
+            </div>
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-linear-to-r from-background to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-linear-to-l from-background to-transparent" />
+          </div>
+
           <div className="mx-auto max-w-2xl text-center">
             <Reveal>
               <BrandWordmark className="mx-auto w-40 md:w-52" />
             </Reveal>
             <Reveal delay={0.08}>
-              <span className="eyebrow mt-10 block">Waitlist confirmed</span>
+              <span className="mt-10 inline-flex items-center gap-3 border border-blood/50 bg-blood/10 px-5 py-2 font-display text-[0.62rem] uppercase tracking-[0.32em] text-blood-bright">
+                <span className="h-1.5 w-1.5 rotate-45 bg-blood-bright" />
+                Waitlist confirmed
+              </span>
             </Reveal>
             <Reveal delay={0.14}>
               <h1 className="display-lg mt-6">
@@ -84,6 +115,17 @@ function WaitlistSuccess() {
                 ) : null}
                 . You'll be reached out to personally when the closed demo opens.
               </p>
+            </Reveal>
+            <Reveal delay={0.26}>
+              <div className="mx-auto mt-10 max-w-md">
+                <div className="flex items-center justify-between font-display text-[0.6rem] uppercase tracking-[0.28em] text-muted-foreground">
+                  <span>Registration</span>
+                  <span className="text-blood-bright">100%</span>
+                </div>
+                <div className="mt-3 h-px w-full bg-border">
+                  <div className="h-px w-full bg-blood-bright shadow-[0_0_14px_var(--color-blood-bright)]" />
+                </div>
+              </div>
             </Reveal>
           </div>
 
