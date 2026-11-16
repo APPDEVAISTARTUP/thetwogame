@@ -39,30 +39,24 @@ export function SectionHeading({
   title,
   description,
   align = "left",
-  index,
 }: {
   eyebrow: string;
   title: string;
   description?: string;
   align?: "left" | "center";
+  /** Kept for compatibility; no longer rendered. */
   index?: string;
 }) {
   return (
     <div className={cn("max-w-3xl", align === "center" && "mx-auto text-center")}>
       <Reveal>
-        <div className={cn("flex items-center gap-4", align === "center" && "justify-center")}>
-          {align === "left" && <span className="h-px w-10 bg-blood" />}
-          <span className="eyebrow">{eyebrow}</span>
-          {index && <span className="index-label opacity-60">/ {index}</span>}
-        </div>
+        <span className="eyebrow">{eyebrow}</span>
       </Reveal>
-      <Reveal delay={0.08}>
-        <h2 className="display-lg text-balance-tight mt-6 text-foreground [text-shadow:0_2px_40px_rgba(0,0,0,0.6)]">
-          {title}
-        </h2>
+      <Reveal delay={0.06}>
+        <h2 className="display-lg text-balance-tight mt-5 text-foreground">{title}</h2>
       </Reveal>
       {description && (
-        <Reveal delay={0.16}>
+        <Reveal delay={0.12}>
           <p
             className={cn(
               "mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg",
@@ -87,7 +81,7 @@ export function Section({
   className?: string;
 }) {
   return (
-    <section id={id} className={cn("py-28 md:py-40", className)}>
+    <section id={id} className={cn("scroll-mt-20 py-24 md:py-36", className)}>
       <div className="container-x">{children}</div>
     </section>
   );
@@ -99,6 +93,15 @@ type ButtonProps = {
   className?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
+export const buttonClass = (variant: "primary" | "ghost" | "outline" = "primary") =>
+  cn(
+    "inline-flex items-center justify-center gap-2.5 px-7 py-4 text-sm font-semibold uppercase tracking-[0.12em] transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-50",
+    variant === "primary" && "bg-blood text-primary-foreground hover:bg-blood-bright",
+    variant === "outline" &&
+      "border border-foreground/30 text-foreground hover:border-foreground hover:bg-foreground/5",
+    variant === "ghost" && "text-muted-foreground hover:text-foreground",
+  );
+
 export function CinematicButton({
   children,
   variant = "primary",
@@ -106,22 +109,8 @@ export function CinematicButton({
   ...rest
 }: ButtonProps) {
   return (
-    <button
-      {...rest}
-      className={cn(
-        "group relative inline-flex items-center justify-center gap-3 overflow-hidden px-8 py-4 font-display text-sm uppercase tracking-[0.28em] transition-all duration-500 disabled:opacity-50",
-        variant === "primary" &&
-          "bg-blood text-primary-foreground hover:bg-blood-bright hover:shadow-[0_0_44px_-8px_var(--color-blood-bright)]",
-        variant === "outline" &&
-          "border border-border text-foreground hover:border-blood hover:text-foreground",
-        variant === "ghost" && "text-muted-foreground hover:text-foreground",
-        className,
-      )}
-    >
-      <span className="relative z-10 flex items-center gap-3">{children}</span>
-      {variant !== "ghost" && (
-        <span className="pointer-events-none absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-foreground/15 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-      )}
+    <button {...rest} className={cn(buttonClass(variant), className)}>
+      {children}
     </button>
   );
 }

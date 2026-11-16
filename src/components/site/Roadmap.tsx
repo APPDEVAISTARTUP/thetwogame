@@ -1,74 +1,86 @@
-import { Reveal, Section, SectionHeading } from "./primitives";
+import { cn } from "@/lib/utils";
+import { Section, SectionHeading } from "./primitives";
 
-const steps = [
+type State = "done" | "now" | "next";
+
+const steps: { title: string; state: State; label: string; text: string }[] = [
   {
-    phase: "Phase 01",
     title: "Prototype",
-    state: "Complete",
+    state: "done",
+    label: "Complete",
     text: "Core movement, first infected AI, one district blockout.",
   },
   {
-    phase: "Phase 02",
-    title: "Vertical Slice",
-    state: "In Development",
+    title: "Vertical slice",
+    state: "now",
+    label: "In development",
     text: "One full playable hour: hospital district, crafting, weather.",
   },
   {
-    phase: "Phase 03",
-    title: "Closed Demo",
-    state: "Next",
+    title: "Closed demo",
+    state: "next",
+    label: "Next",
     text: "Private build for waitlist members and founding survivors.",
   },
   {
-    phase: "Phase 04",
-    title: "Steam Page",
-    state: "Planned",
+    title: "Steam page",
+    state: "next",
+    label: "Planned",
     text: "Store page, trailer and press kit go live.",
   },
   {
-    phase: "Phase 05",
-    title: "Wishlist Campaign",
-    state: "Planned",
-    text: "Public demo, creator builds, festival submissions.",
+    title: "Public demo",
+    state: "next",
+    label: "Planned",
+    text: "Wishlist campaign, creator builds, festival submissions.",
   },
   {
-    phase: "Phase 06",
     title: "Release",
-    state: "TBA",
-    text: "PC. When it is genuinely ready — not before.",
+    state: "next",
+    label: "TBA",
+    text: "On PC, when it is genuinely ready.",
   },
 ];
 
 export function Roadmap() {
   return (
-    <Section id="roadmap" className="hairline">
+    <Section id="roadmap">
       <SectionHeading
         eyebrow="Roadmap"
         title="Built in the open"
-        description="No fake dates. Progress is published as it happens."
+        description="No fake dates. Progress is shared as it happens."
       />
 
-      <div className="mt-20 border-l border-border pl-8 md:pl-14">
+      <ol className="mt-16 grid gap-x-6 sm:grid-cols-2 lg:grid-cols-6">
         {steps.map((s, i) => (
-          <Reveal key={s.title} delay={i * 0.05}>
-            <div className="group relative pb-14 last:pb-0">
-              <span className="absolute -left-[2.3rem] top-2 h-2 w-2 rounded-full bg-border transition-all duration-500 group-hover:bg-blood-bright group-hover:shadow-[0_0_18px_2px_var(--color-blood)] md:-left-[3.8rem]" />
-              <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2">
-                <span className="eyebrow">{s.phase}</span>
-                <span className="text-[0.6rem] uppercase tracking-[0.28em] text-blood-bright">
-                  {s.state}
-                </span>
-              </div>
-              <h3 className="mt-4 font-display text-3xl uppercase tracking-[0.05em] text-foreground md:text-4xl">
-                {s.title}
-              </h3>
-              <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                {s.text}
-              </p>
-            </div>
-          </Reveal>
+          <li key={s.title} className="relative pt-8 pb-10 lg:pb-0">
+            <span
+              aria-hidden
+              className={cn(
+                "absolute inset-x-0 top-0 h-[3px]",
+                s.state === "done" && "bg-foreground/60",
+                s.state === "now" && "bg-blood-bright",
+                s.state === "next" && "bg-foreground/10",
+              )}
+            />
+            <span className="font-mono text-xs text-muted-foreground">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <h3 className="mt-4 font-display text-2xl font-bold uppercase text-foreground">
+              {s.title}
+            </h3>
+            <p
+              className={cn(
+                "mt-1 font-mono text-[0.68rem] uppercase tracking-[0.14em]",
+                s.state === "now" ? "text-blood-bright" : "text-muted-foreground",
+              )}
+            >
+              {s.label}
+            </p>
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{s.text}</p>
+          </li>
         ))}
-      </div>
+      </ol>
     </Section>
   );
 }

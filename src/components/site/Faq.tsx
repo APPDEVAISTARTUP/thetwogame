@@ -30,7 +30,7 @@ export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <Section id="faq" className="hairline">
+    <Section id="faq" className="bg-card">
       <div className="grid gap-16 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
         <SectionHeading eyebrow="FAQ" title="Questions" />
         <div className="border-t border-border">
@@ -41,7 +41,7 @@ export function Faq() {
                   onClick={() => setOpen(open === i ? null : i)}
                   className="flex w-full items-center justify-between gap-6 py-7 text-left"
                 >
-                  <span className="font-display text-lg uppercase tracking-[0.08em] text-foreground md:text-2xl">
+                  <span className="font-display text-xl font-bold uppercase text-foreground md:text-3xl">
                     {f.q}
                   </span>
                   <Plus

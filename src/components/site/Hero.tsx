@@ -1,204 +1,105 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { ArrowDown, Play } from "lucide-react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { Link } from "@tanstack/react-router";
 import heroCity from "@/assets/hero-city.jpg";
 import wordmark from "@/assets/two-wordmark.png";
-import { CinematicButton } from "./primitives";
+import { buttonClass } from "./primitives";
 
-const WORDS = ["Open", "World"];
-const WORDS_2 = ["Zombie", "Survival"];
+const ease = [0.16, 1, 0.3, 1] as const;
 
-const META = [
-  { k: "Engine", v: "Unreal Engine 5" },
-  { k: "Platform", v: "PC" },
-  { k: "Perspective", v: "Third Person" },
-  { k: "Build", v: "In Development" },
-];
-
+/**
+ * Signature: the page opens like a film. Black letterbox bars cover the frame and part
+ * to a widescreen strip, then the title and calls to action fade in.
+ */
 export function Hero() {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLElement>(null);
+  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1.04, 1.14]);
-  const opacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
-
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      setTilt({
-        x: (e.clientX / window.innerWidth - 0.5) * 18,
-        y: (e.clientY / window.innerHeight - 0.5) * 10,
-      });
-    };
-    window.addEventListener("mousemove", onMove, { passive: true });
-    return () => window.removeEventListener("mousemove", onMove);
-  }, []);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "12%"]);
 
   return (
-    <div id="top" ref={ref} className="relative h-[100svh] min-h-[700px] overflow-hidden">
-      {/* film plate */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div style={{ y, scale }} className="absolute inset-0">
-          <motion.img
-            src={heroCity}
-            alt="Rain-soaked city street collapsing during the first hours of the outbreak"
-            width={1920}
-            height={1088}
-            animate={{ x: tilt.x, y: tilt.y }}
-            transition={{ type: "spring", stiffness: 40, damping: 20 }}
-            className="h-full w-full scale-[1.06] object-cover"
-          />
-        </motion.div>
-      </div>
+    <section
+      id="top"
+      ref={ref}
+      aria-label="TWO"
+      className="relative h-[100svh] min-h-[640px] overflow-hidden bg-black"
+    >
+      <motion.img
+        src={heroCity}
+        alt="Rain-soaked Indian city street collapsing during the first hours of the outbreak"
+        width={1920}
+        height={1088}
+        style={{ y }}
+        initial={{ scale: reduce ? 1 : 1.08 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 2.4, ease }}
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      <div className="absolute inset-0 bg-linear-to-t from-background via-background/30 to-background/40" />
+      <div className="absolute inset-0 bg-linear-to-r from-background/80 via-transparent to-transparent" />
 
-      <div className="pointer-events-none absolute inset-0 grain" />
-      <div className="pointer-events-none absolute inset-0 scanlines" />
-      <div className="pointer-events-none absolute inset-0 vignette" />
-      <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-background/90 via-background/25 to-background" />
-      <div className="pointer-events-none absolute inset-0 bg-linear-to-r from-background/90 via-background/10 to-background/60" />
+      {/* letterbox bars */}
       <div
-        className="pointer-events-none absolute -left-40 top-1/3 h-[28rem] w-[28rem] rounded-full bg-blood/30 blur-[150px]"
-        style={{ animation: "ember-pulse 7s ease-in-out infinite" }}
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-1/2 origin-top bg-black"
+        style={{ animation: "letterbox-open 1.6s cubic-bezier(0.7,0,0.2,1) 0.2s both" }}
       />
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-blood-bright/70 to-transparent"
-        style={{ animation: "sweep-y 9s linear infinite" }}
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-1/2 origin-bottom bg-black"
+        style={{ animation: "letterbox-open 1.6s cubic-bezier(0.7,0,0.2,1) 0.2s both" }}
       />
-      <div className="pointer-events-none absolute inset-0 letterbox" />
 
-      {/* left rail */}
-      <div className="pointer-events-none absolute left-6 top-1/2 hidden -translate-y-1/2 xl:block">
-        <span className="hud-label block origin-left -rotate-90 whitespace-nowrap">
-          Wildcrown Games — Solo Developed in India
-        </span>
-      </div>
-
-      <motion.div
-        style={{ opacity }}
-        className="container-x relative z-10 flex h-full flex-col justify-end pb-24 pt-32 md:justify-center md:pb-28"
-      >
+      <div className="container-x relative z-10 flex h-full flex-col justify-end pb-[14svh] md:pb-[15svh]">
+        <motion.img
+          src={wordmark}
+          alt="TWO"
+          width={633}
+          height={331}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 1.3, ease }}
+          className="w-[min(62vw,340px)] drop-shadow-[0_8px_40px_rgba(0,0,0,0.7)]"
+        />
+        <motion.h1
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.1, delay: 1.55, ease }}
+          className="mt-6 max-w-2xl font-display text-4xl font-extrabold uppercase leading-[0.92] text-foreground md:text-6xl"
+        >
+          Survive the first night of the outbreak.
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.8 }}
+          className="mt-5 max-w-lg text-base leading-relaxed text-foreground/75 md:text-lg"
+        >
+          An open-world zombie survival game set in an Indian city, built in Unreal Engine 5 by one
+          developer.
+        </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.15 }}
-          className="mb-8 flex items-center gap-4"
+          transition={{ duration: 1, delay: 1.95, ease }}
+          className="mt-9 flex flex-wrap items-center gap-3"
         >
-          <span
-            className="h-1.5 w-1.5 bg-blood-bright"
-            style={{ animation: "hud-blink 1.8s ease-in-out infinite" }}
-          />
-          <span className="hud-label">Day 01 — Outbreak Begins</span>
-          <span className="hidden h-px w-16 bg-border sm:block" />
+          <a href="#waitlist" className={buttonClass("primary")}>
+            Join the waitlist
+          </a>
+          <Link to="/support" className={buttonClass("outline")}>
+            Support development
+          </Link>
         </motion.div>
-
-        <motion.img
-          src={wordmark}
-          alt="TWO game logo"
-          initial={{ opacity: 0, scale: 1.08 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-          className="w-[min(46vw,240px)] max-w-full drop-shadow-[0_10px_50px_rgba(0,0,0,0.8)]"
-          width={633}
-          height={331}
-        />
-
-        <h1 className="display-xl mt-6 max-w-5xl text-foreground [text-shadow:0_4px_60px_rgba(0,0,0,0.75)]">
-          <span className="block overflow-hidden">
-            {WORDS.map((w, i) => (
-              <motion.span
-                key={w}
-                initial={{ y: "110%", opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 1, delay: 0.35 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="mr-[0.22em] inline-block"
-              >
-                {w}
-              </motion.span>
-            ))}
-          </span>
-          <span className="block overflow-hidden">
-            {WORDS_2.map((w, i) => (
-              <motion.span
-                key={w}
-                initial={{ y: "110%", opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 1, delay: 0.55 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className={
-                  i === 0
-                    ? "mr-[0.22em] inline-block text-blood-bright"
-                    : "mr-[0.22em] inline-block text-outline"
-                }
-              >
-                {w}
-              </motion.span>
-            ))}
-          </span>
-        </h1>
-
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 1.2, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-8 h-px w-full max-w-2xl origin-left bg-linear-to-r from-blood-bright via-blood/40 to-transparent"
-        />
-
         <motion.p
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1 }}
-          className="mt-7 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base"
-        >
-          Experience the beginning of the outbreak — a cinematic open-world survival game built in
-          Unreal Engine 5 by one developer, frame by frame.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.15 }}
-          className="mt-10 flex flex-wrap items-center gap-4"
-        >
-          <a href="#waitlist">
-            <CinematicButton>Join Waitlist</CinematicButton>
-          </a>
-          <a href="/support">
-            <CinematicButton variant="outline">Support TWO</CinematicButton>
-          </a>
-          <CinematicButton variant="ghost" disabled>
-            <Play size={14} /> Trailer — Coming Soon
-          </CinematicButton>
-        </motion.div>
-
-        <motion.dl
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, delay: 1.35 }}
-          className="mt-14 hidden max-w-3xl grid-cols-4 gap-px border border-border bg-border md:grid"
+          transition={{ duration: 1, delay: 2.2 }}
+          className="mt-10 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-foreground/55"
         >
-          {META.map((m) => (
-            <div key={m.k} className="bg-background/70 px-5 py-4 backdrop-blur-sm">
-              <dt className="hud-label text-[0.55rem]">{m.k}</dt>
-              <dd className="mt-2 font-display text-xs uppercase tracking-[0.18em] text-foreground">
-                {m.v}
-              </dd>
-            </div>
-          ))}
-        </motion.dl>
-      </motion.div>
-
-      <motion.div
-        style={{ opacity }}
-        className="absolute inset-x-0 bottom-10 z-10 hidden flex-col items-center gap-3 md:flex"
-      >
-        <span className="hud-label text-[0.55rem]">Scroll</span>
-        <motion.span
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 2.4, ease: "easeInOut" }}
-          className="text-muted-foreground"
-        >
-          <ArrowDown size={16} />
-        </motion.span>
-      </motion.div>
-    </div>
+          PC · Unreal Engine 5 · In development · Trailer coming soon
+        </motion.p>
+      </div>
+    </section>
   );
 }

@@ -4,14 +4,17 @@ import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BrandWordmark } from "./BrandLogo";
+import { buttonClass } from "./primitives";
 
 const links = [
-  { label: "About", href: "/#about" },
-  { label: "Features", href: "/#features" },
+  { label: "Story", href: "/#about" },
   { label: "World", href: "/#world" },
   { label: "Gallery", href: "/#gallery" },
   { label: "Roadmap", href: "/#roadmap" },
 ];
+
+const linkClass =
+  "text-[0.8rem] font-medium uppercase tracking-[0.14em] text-foreground/70 transition-colors duration-300 hover:text-foreground";
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -27,52 +30,46 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500",
-        scrolled
-          ? "glass-panel border-x-0 border-t-0 py-3 shadow-[0_10px_40px_-24px_rgba(0,0,0,0.9)]"
-          : "border-transparent py-6",
+        "fixed inset-x-0 top-0 z-50 transition-[background-color,padding,border-color] duration-500",
+        scrolled || open
+          ? "border-b border-border bg-background/90 py-3 backdrop-blur-md"
+          : "border-b border-transparent bg-transparent py-5",
       )}
     >
-      <div className="container-x flex items-center justify-between">
+      <div className="container-x flex items-center justify-between gap-6">
         <Link
           to="/"
           aria-label="TWO — home"
           className="block shrink-0 transition-opacity duration-300 hover:opacity-80"
         >
-          <BrandWordmark className="w-24 md:w-28" />
+          <BrandWordmark className="w-20 md:w-24" />
         </Link>
 
-        <nav className="hidden items-center gap-9 lg:flex">
+        <nav aria-label="Main" className="hidden items-center gap-9 lg:flex">
           {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="relative text-xs uppercase tracking-[0.24em] text-muted-foreground transition-colors duration-300 hover:text-foreground after:absolute after:-bottom-2 after:left-0 after:h-px after:w-0 after:bg-blood after:transition-all after:duration-300 hover:after:w-full"
-            >
+            <a key={l.href} href={l.href} className={linkClass}>
               {l.label}
             </a>
           ))}
-          <Link
-            to="/support"
-            className="relative text-xs uppercase tracking-[0.24em] text-muted-foreground transition-colors duration-300 hover:text-foreground after:absolute after:-bottom-2 after:left-0 after:h-px after:w-0 after:bg-blood after:transition-all after:duration-300 hover:after:w-full"
-          >
+          <Link to="/support" className={linkClass}>
             Support
           </Link>
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <a
             href="/#waitlist"
-            className="hidden border border-border px-6 py-3 font-display text-xs uppercase tracking-[0.28em] transition-all duration-300 hover:border-blood hover:bg-blood/10 hover:shadow-[0_0_30px_-10px_var(--color-blood-bright)] sm:inline-block"
+            className={cn(buttonClass("primary"), "hidden px-5 py-3 sm:inline-flex")}
           >
-            Join Waitlist
+            Join the waitlist
           </a>
           <button
-            aria-label="Toggle menu"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
             className="p-2 text-foreground lg:hidden"
           >
-            {open ? <X size={20} /> : <Menu size={20} />}
+            {open ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
@@ -80,18 +77,19 @@ export function SiteHeader() {
       <AnimatePresence>
         {open && (
           <motion.nav
+            aria-label="Mobile"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden bg-background/95 lg:hidden"
+            className="overflow-hidden lg:hidden"
           >
-            <div className="container-x flex flex-col gap-5 py-8">
+            <div className="container-x flex flex-col gap-1 pb-6 pt-4">
               {links.map((l) => (
                 <a
                   key={l.href}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="font-display text-lg uppercase tracking-[0.2em] text-muted-foreground"
+                  className="py-3 font-display text-3xl font-bold uppercase text-foreground"
                 >
                   {l.label}
                 </a>
@@ -99,16 +97,16 @@ export function SiteHeader() {
               <Link
                 to="/support"
                 onClick={() => setOpen(false)}
-                className="font-display text-lg uppercase tracking-[0.2em] text-blood-bright"
+                className="py-3 font-display text-3xl font-bold uppercase text-blood-bright"
               >
                 Support TWO
               </Link>
               <a
                 href="/#waitlist"
                 onClick={() => setOpen(false)}
-                className="mt-2 border border-border px-6 py-3 text-center font-display text-xs uppercase tracking-[0.28em] text-foreground"
+                className={cn(buttonClass("primary"), "mt-4")}
               >
-                Join Waitlist
+                Join the waitlist
               </a>
             </div>
           </motion.nav>

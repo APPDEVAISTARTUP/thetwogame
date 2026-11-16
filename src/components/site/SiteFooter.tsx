@@ -22,9 +22,7 @@ const nav = [
 
 export function SiteFooter() {
   return (
-    <footer className="hairline relative overflow-hidden">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-blood/60 to-transparent" />
-
+    <footer className="relative overflow-hidden border-t border-border bg-black/40">
       <div className="container-x py-16 md:py-24">
         <div className="grid gap-14 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
           {/* Brand */}

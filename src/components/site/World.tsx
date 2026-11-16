@@ -1,102 +1,107 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import hospital from "@/assets/world-hospital.jpg";
 import military from "@/assets/world-military.jpg";
 import forest from "@/assets/world-forest.jpg";
 import lab from "@/assets/world-lab.jpg";
 import metro from "@/assets/world-metro.jpg";
 import highway from "@/assets/gallery-highway.jpg";
-import { Reveal, Section, SectionHeading } from "./primitives";
+import { Section, SectionHeading } from "./primitives";
 
 const places = [
   {
-    index: "01",
     name: "Civil Hospital, Sector 9",
     image: hospital,
-    text: "Triage tents in the parking lot, corridors sealed in blue tarp, ambulances stacked at the gate. The first place that understood what was coming, and the first to fall.",
+    text: "Triage tents in the parking lot and corridors sealed in blue tarp. The first place that understood what was coming, and the first to fall.",
   },
   {
-    index: "02",
     name: "NH-48 Army Checkpost",
     image: military,
-    text: "Floodlights, sandbags and a queue of trucks that never moves. Jawans are still following orders. For now.",
+    text: "Floodlights, sandbags and a queue of trucks that never moves. The jawans are still following orders. For now.",
   },
   {
-    index: "03",
     name: "The Expressway",
     image: highway,
-    text: "Forty kilometres of abandoned evacuation — buses, autos, a burning tanker. The dhabas are still lit, and nobody is inside them.",
+    text: "Forty kilometres of abandoned evacuation. The dhabas are still lit, and nobody is inside them.",
   },
   {
-    index: "04",
     name: "Sal Forest, Outer Belt",
     image: forest,
-    text: "Cold fog off the river, no signal, no lights. A forgotten forest shrine and the easiest place in the country to disappear.",
+    text: "Cold fog off the river, no signal, no lights. The easiest place in the country to disappear.",
   },
   {
-    index: "05",
-    name: "Metro Line 4 — Below Ground",
+    name: "Metro Line 4",
     image: metro,
-    text: "Third rail is dead, station shutters half-down, luggage still on the platform. Your flashlight is a promise you make to whatever is already down there.",
+    text: "The third rail is dead and luggage is still on the platform. Your flashlight is the only light down here.",
   },
   {
-    index: "06",
-    name: "Facility Two — Restricted",
+    name: "Facility Two",
     image: lab,
-    text: "It is not on any map. It carries a national emblem on the door. It has answers you may not survive reading.",
+    text: "It is not on any map. It has answers you may not survive reading.",
   },
 ];
 
 export function World() {
-  return (
-    <Section id="world" className="hairline">
-      <SectionHeading
-        eyebrow="The World"
-        title="One Indian city. One collapsing night."
-        description="Locations built to be believed before they are feared — Indian streets, Indian light, Indian silence."
-      />
+  const track = useRef<HTMLUListElement>(null);
+  const scrollBy = (dir: 1 | -1) => {
+    const el = track.current;
+    if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: "smooth" });
+  };
 
-      <div className="mt-24 space-y-28 md:space-y-40">
-        {places.map((p, i) => (
-          <div
-            key={p.name}
-            className={`grid items-center gap-10 lg:grid-cols-2 lg:gap-20 ${
-              i % 2 ? "lg:[&>*:first-child]:order-2" : ""
-            }`}
+  return (
+    <Section id="world">
+      <div className="flex flex-wrap items-end justify-between gap-8">
+        <SectionHeading
+          eyebrow="The world"
+          title="One Indian city. One collapsing night."
+          description="Places built to be believed before they are feared."
+        />
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => scrollBy(-1)}
+            aria-label="Previous location"
+            className="flex h-12 w-12 items-center justify-center border border-foreground/25 text-foreground transition-colors hover:border-foreground"
           >
-            <Reveal>
-              <motion.div
-                whileHover={{ scale: 1.015 }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="group relative overflow-hidden"
-              >
-                <img
-                  src={p.image}
-                  alt={p.name}
-                  loading="lazy"
-                  width={1600}
-                  height={1008}
-                  className="aspect-16/10 w-full object-cover brightness-[0.85] transition-all duration-[1400ms] group-hover:brightness-100"
-                />
-                <span className="absolute left-0 top-0 bg-background/70 px-4 py-2 font-display text-xs tracking-[0.3em] text-blood-bright">
-                  {p.index}
-                </span>
-              </motion.div>
-            </Reveal>
-            <div className="max-w-lg">
-              <Reveal delay={0.1}>
-                <h3 className="font-display text-3xl uppercase leading-tight tracking-[0.06em] text-foreground md:text-5xl">
-                  {p.name}
-                </h3>
-              </Reveal>
-              <Reveal delay={0.18}>
-                <p className="mt-6 text-base leading-relaxed text-muted-foreground md:text-lg">
-                  {p.text}
-                </p>
-              </Reveal>
-            </div>
-          </div>
-        ))}
+            <ArrowLeft size={18} />
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollBy(1)}
+            aria-label="Next location"
+            className="flex h-12 w-12 items-center justify-center border border-foreground/25 text-foreground transition-colors hover:border-foreground"
+          >
+            <ArrowRight size={18} />
+          </button>
+        </div>
       </div>
+
+      <ul
+        ref={track}
+        className="-mx-6 mt-14 flex snap-x snap-mandatory scroll-px-6 gap-5 overflow-x-auto scroll-smooth px-6 lg:scroll-px-14 pb-4 [scrollbar-width:none] lg:-mx-14 lg:px-14 [&::-webkit-scrollbar]:hidden"
+      >
+        {places.map((p) => (
+          <li
+            key={p.name}
+            className="w-[82vw] shrink-0 snap-start sm:w-[60vw] lg:w-[min(42vw,620px)]"
+          >
+            <img
+              src={p.image}
+              alt={p.name}
+              loading="lazy"
+              width={1600}
+              height={1008}
+              className="aspect-16/10 w-full object-cover"
+            />
+            <h3 className="mt-6 font-display text-3xl font-bold uppercase text-foreground md:text-4xl">
+              {p.name}
+            </h3>
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
+              {p.text}
+            </p>
+          </li>
+        ))}
+      </ul>
     </Section>
   );
 }
