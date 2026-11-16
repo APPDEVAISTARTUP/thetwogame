@@ -102,7 +102,7 @@ const faqs = [
   },
   {
     q: "How can I stay updated?",
-    a: "Join the waitlist on the home page and follow Shade Studios on Instagram. Development letters, screenshots and demo access all go out there first.",
+    a: "Join the waitlist on the home page and follow Wildcrown Games on Instagram. Development letters, screenshots and demo access all go out there first.",
   },
 ];
 

@@ -99,13 +99,13 @@ export function SiteFooter() {
               className="mt-6 flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-muted-foreground transition-colors duration-300 hover:text-foreground"
             >
               <InstagramIcon size={15} className="text-blood-bright" />
-              Shade Studios on Instagram
+              Wildcrown Games on Instagram
             </a>
           </div>
         </div>
 
         <div className="mt-14 flex flex-col gap-3 border-t border-border pt-8 text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <span>© {new Date().getFullYear()} Shade Studios · TWO. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Wildcrown Games · TWO. All rights reserved.</span>
           <span>Unreal Engine 5 · PC · In Development</span>
         </div>
       </div>

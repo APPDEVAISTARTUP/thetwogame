@@ -127,7 +127,7 @@ export function DonationPanel() {
       order_id: order.orderId,
       amount: order.amountPaise,
       currency: order.currency,
-      name: "TWO — Shade Studios",
+      name: "TWO — WILDCROWN GAMES",
       description: "Support TWO",
       prefill: { name: parsed.data.name, email: parsed.data.email || undefined },
       notes: { purpose: "Support TWO" },

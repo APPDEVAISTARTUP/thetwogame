@@ -6,7 +6,7 @@
 
 ## About
 
-**TWO** is an upcoming third-person zombie survival horror game developed by **Shade Studios**.
+**TWO** is an upcoming third-person zombie survival horror game developed by **Wildcrown Games**.
 
 Set at the very beginning of a deadly outbreak, players must fight to survive in a collapsing world where every decision matters.
 
@@ -28,7 +28,7 @@ The game focuses on:
 
 ## Follow Development
 
-- 📷 Instagram: https://instagram.com/shadestudiosofficial
+- 📷 Instagram: https://www.instagram.com/wildcrowngames/
 - 💬 Discord: https://discord.gg/YOUR_INVITE
 - 🎥 YouTube: Coming Soon
 
@@ -55,7 +55,7 @@ The website and community are currently being built while the game is in active 
 
 ## Contributing
 
-This repository is maintained by **Shade Studios**.
+This repository is maintained by **Wildcrown Games**.
 
 Community feedback and suggestions are always welcome through our official Discord server.
 
@@ -63,8 +63,8 @@ Community feedback and suggestions are always welcome through our official Disco
 
 ## Copyright
 
-© 2026 Shade Studios. All Rights Reserved.
+© 2026 Wildcrown Games. All Rights Reserved.
 
 This repository and its contents are protected by copyright.
 
-The source code, branding, artwork, game assets, story, and design may not be copied, redistributed, or used without explicit written permission from Shade Studios.
+The source code, branding, artwork, game assets, story, and design may not be copied, redistributed, or used without explicit written permission from Wildcrown Games.

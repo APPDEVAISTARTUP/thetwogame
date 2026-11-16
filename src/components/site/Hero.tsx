@@ -69,7 +69,7 @@ export function Hero() {
       {/* left rail */}
       <div className="pointer-events-none absolute left-6 top-1/2 hidden -translate-y-1/2 xl:block">
         <span className="hud-label block origin-left -rotate-90 whitespace-nowrap">
-          Shade Studios — Solo Developed in India
+          Wildcrown Games — Solo Developed in India
         </span>
       </div>
 
