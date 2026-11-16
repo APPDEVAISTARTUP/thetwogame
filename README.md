@@ -29,8 +29,8 @@ The game focuses on:
 ## Follow Development
 
 - 📷 Instagram: https://www.instagram.com/wildcrowngames/
-- 💬 Discord: https://discord.gg/YOUR_INVITE
-- 🎥 YouTube: Coming Soon
+- 💬 Discord: https://discord.gg/tRcSF7w9W
+- 🎥 YouTube: https://www.youtube.com/@WildcrownGames
 
 ---
 

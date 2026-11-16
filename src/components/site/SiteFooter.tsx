@@ -6,7 +6,7 @@ import { InstagramIcon } from "./icons";
 
 const socials = [
   { icon: InstagramIcon, label: "Instagram", href: LINKS.instagram },
-  { icon: MessagesSquare, label: "Discord", href: "https://discord.gg/zdjhWFAuu" },
+  { icon: MessagesSquare, label: "Discord", href: LINKS.discord },
   { icon: Gamepad2, label: "Steam", href: LINKS.steam },
   { icon: Video, label: "YouTube", href: LINKS.youtube },
 ];
