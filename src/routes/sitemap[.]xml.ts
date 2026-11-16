@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
-const BASE_URL = "";
+const BASE_URL = "https://www.playtwo.in";
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
@@ -20,6 +20,13 @@ export const Route = createFileRoute("/sitemap.xml")({
           `    <changefreq>weekly</changefreq>`,
           `    <priority>0.8</priority>`,
           `  </url>`,
+          ...["/terms", "/privacy", "/refund-policy", "/contact"].flatMap((path) => [
+            `  <url>`,
+            `    <loc>${BASE_URL}${path}</loc>`,
+            `    <changefreq>yearly</changefreq>`,
+            `    <priority>0.3</priority>`,
+            `  </url>`,
+          ]),
           `</urlset>`,
         ].join("\n");
 

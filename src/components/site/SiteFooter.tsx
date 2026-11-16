@@ -91,7 +91,6 @@ export function SiteFooter() {
               progamedev@gmail.com
             </a>
 
-
             <a
               href={LINKS.instagram}
               target="_blank"
@@ -106,7 +105,20 @@ export function SiteFooter() {
 
         <div className="mt-14 flex flex-col gap-3 border-t border-border pt-8 text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} Wildcrown Games · TWO. All rights reserved.</span>
-          <span>Unreal Engine 5 · PC · In Development</span>
+          <nav aria-label="Legal" className="flex flex-wrap gap-x-5 gap-y-2">
+            <Link to="/terms" className="transition-colors hover:text-foreground">
+              Terms
+            </Link>
+            <Link to="/privacy" className="transition-colors hover:text-foreground">
+              Privacy
+            </Link>
+            <Link to="/refund-policy" className="transition-colors hover:text-foreground">
+              Refunds
+            </Link>
+            <Link to="/contact" className="transition-colors hover:text-foreground">
+              Contact
+            </Link>
+          </nav>
         </div>
       </div>
     </footer>

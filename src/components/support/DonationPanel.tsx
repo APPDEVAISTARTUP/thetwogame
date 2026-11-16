@@ -1,5 +1,6 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { CheckCircle2, Loader2, ShieldCheck } from "lucide-react";
 import { CinematicButton, Reveal } from "@/components/site/primitives";
@@ -342,7 +343,18 @@ export function DonationPanel() {
           </CinematicButton>
           <p className="text-[0.65rem] leading-relaxed tracking-wide text-muted-foreground">
             Pay with UPI, cards, netbanking or wallets. Payments are processed by Razorpay; card and
-            bank details never reach this website.
+            bank details never reach this website. By donating you agree to our{" "}
+            <Link to="/terms" className="underline underline-offset-2 hover:text-foreground">
+              Terms
+            </Link>{" "}
+            and{" "}
+            <Link
+              to="/refund-policy"
+              className="underline underline-offset-2 hover:text-foreground"
+            >
+              Refund Policy
+            </Link>
+            .
           </p>
         </div>
       </Reveal>
