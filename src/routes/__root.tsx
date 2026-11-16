@@ -13,6 +13,7 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 
 import appCss from "../styles.css?url";
 import { Toaster } from "@/components/ui/sonner";
+import { SmoothScroll } from "@/components/site/SmoothScroll";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -92,10 +93,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:title", content: "TWO — Open World Zombie Survival Game" },
       { name: "twitter:title", content: "TWO — Open World Zombie Survival Game" },
-      { property: "og:description", content: "TWO is a cinematic open-world zombie survival game set during the outbreak. Built in Unreal Engine 5 by a solo developer in India." },
-      { name: "twitter:description", content: "TWO is a cinematic open-world zombie survival game set during the outbreak. Built in Unreal Engine 5 by a solo developer in India." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/119e7e9c-d266-4689-85d3-5b8aeb5811f9" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/119e7e9c-d266-4689-85d3-5b8aeb5811f9" },
+      {
+        property: "og:description",
+        content:
+          "TWO is a cinematic open-world zombie survival game set during the outbreak. Built in Unreal Engine 5 by a solo developer in India.",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "TWO is a cinematic open-world zombie survival game set during the outbreak. Built in Unreal Engine 5 by a solo developer in India.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/119e7e9c-d266-4689-85d3-5b8aeb5811f9",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/119e7e9c-d266-4689-85d3-5b8aeb5811f9",
+      },
     ],
     links: [
       {
@@ -140,6 +157,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+      <SmoothScroll />
       <Outlet />
       <Toaster position="top-center" />
     </QueryClientProvider>

@@ -61,7 +61,11 @@ export function Waitlist() {
     "w-full border border-foreground/20 bg-black/40 px-5 py-4 text-base text-foreground outline-hidden transition-colors duration-300 placeholder:text-foreground/45 focus:border-foreground";
 
   return (
-    <section id="waitlist" className="relative scroll-mt-20 overflow-hidden py-28 md:py-44">
+    <section
+      id="waitlist"
+      data-night="05:00"
+      className="relative scroll-mt-20 overflow-hidden py-32 md:py-52"
+    >
       <img
         src={ctaCity}
         alt=""
@@ -71,20 +75,29 @@ export function Waitlist() {
         height={1088}
         className="absolute inset-0 h-full w-full object-cover"
       />
-      <div className="absolute inset-0 bg-background/75" />
+      <div className="absolute inset-0 bg-background/70" />
       <div className="absolute inset-0 bg-linear-to-b from-background via-transparent to-background" />
+      <div
+        aria-hidden
+        className="absolute inset-0 mix-blend-screen"
+        style={{
+          background:
+            "linear-gradient(to top, oklch(0.6 0.1 240 / 0.28), oklch(0.6 0.1 240 / 0.06) 60%, transparent)",
+        }}
+      />
 
       <div className="container-x relative grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-24">
         <div>
           <Reveal>
-            <span className="eyebrow">Waitlist</span>
+            <span className="eyebrow">05:00 · First light</span>
           </Reveal>
           <Reveal delay={0.06}>
             <h2 className="display-xl mt-5 text-foreground">Be there on night one</h2>
           </Reveal>
           <Reveal delay={0.12}>
             <p className="mt-6 max-w-md text-base leading-relaxed text-foreground/75 md:text-lg">
-              Get closed demo access and development letters. Nothing else.
+              You made it to morning. Join the waitlist for closed demo access and development
+              letters. Nothing else.
             </p>
           </Reveal>
         </div>

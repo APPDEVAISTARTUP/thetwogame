@@ -75,13 +75,16 @@ export function Section({
   id,
   children,
   className,
+  night,
 }: {
   id?: string;
   children: ReactNode;
   className?: string;
+  /** In-fiction time (HH:MM) this section happens at; drives the night clock. */
+  night?: string;
 }) {
   return (
-    <section id={id} className={cn("scroll-mt-20 py-24 md:py-36", className)}>
+    <section id={id} data-night={night} className={cn("scroll-mt-20 py-24 md:py-36", className)}>
       <div className="container-x">{children}</div>
     </section>
   );

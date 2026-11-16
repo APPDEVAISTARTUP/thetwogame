@@ -3,7 +3,7 @@ import { Reveal, Section } from "./primitives";
 
 export function About() {
   return (
-    <Section id="about">
+    <Section id="about" night="21:40">
       <div className="grid items-center gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-24">
         <Reveal>
           <img
@@ -18,7 +18,7 @@ export function About() {
 
         <div>
           <Reveal>
-            <span className="eyebrow">The story</span>
+            <span className="eyebrow">21:40 · The story</span>
           </Reveal>
           <Reveal delay={0.06}>
             <h2 className="display-xl mt-5 text-foreground">

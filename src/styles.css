@@ -397,8 +397,15 @@
   }
 
   html {
-    scroll-behavior: smooth;
     background-color: var(--color-background);
+  }
+
+  /* Beyond full HD the whole layout scales with the screen, so 4K and 8K displays get the
+     same composition, drawn sharper, instead of a small column in the middle. */
+  @media (min-width: 120rem) {
+    html {
+      font-size: calc(100vw / 120);
+    }
   }
 
   ::selection {
@@ -429,6 +436,11 @@
   img {
     -webkit-user-drag: none;
   }
+}
+
+@utility film-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
 }
 
 @keyframes letterbox-open {

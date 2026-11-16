@@ -1,107 +1,156 @@
-import { useRef } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { motion, useMotionValue, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import hospital from "@/assets/world-hospital.jpg";
 import military from "@/assets/world-military.jpg";
 import forest from "@/assets/world-forest.jpg";
-import lab from "@/assets/world-lab.jpg";
 import metro from "@/assets/world-metro.jpg";
 import highway from "@/assets/gallery-highway.jpg";
-import { Section, SectionHeading } from "./primitives";
+import { cn } from "@/lib/utils";
 
+/** The night, in order. Times are what the clock in the corner reads as you pass each place. */
 const places = [
   {
+    time: "22:10",
     name: "Civil Hospital, Sector 9",
     image: hospital,
     text: "Triage tents in the parking lot and corridors sealed in blue tarp. The first place that understood what was coming, and the first to fall.",
   },
   {
+    time: "23:30",
     name: "NH-48 Army Checkpost",
     image: military,
     text: "Floodlights, sandbags and a queue of trucks that never moves. The jawans are still following orders. For now.",
   },
   {
+    time: "00:45",
     name: "The Expressway",
     image: highway,
     text: "Forty kilometres of abandoned evacuation. The dhabas are still lit, and nobody is inside them.",
   },
   {
+    time: "02:00",
     name: "Sal Forest, Outer Belt",
     image: forest,
     text: "Cold fog off the river, no signal, no lights. The easiest place in the country to disappear.",
   },
   {
+    time: "03:15",
     name: "Metro Line 4",
     image: metro,
-    text: "The third rail is dead and luggage is still on the platform. Your flashlight is the only light down here.",
-  },
-  {
-    name: "Facility Two",
-    image: lab,
-    text: "It is not on any map. It has answers you may not survive reading.",
+    text: "The third rail is dead and luggage is still on the platform. Whatever is down here was here before you.",
   },
 ];
 
+function Intro() {
+  return (
+    <div className="w-[84vw] shrink-0 self-center md:w-[34rem]">
+      <span className="eyebrow">The world</span>
+      <h2 className="display-xl mt-5 text-foreground">
+        One city.
+        <br />
+        One night.
+      </h2>
+      <p className="mt-6 max-w-sm text-base leading-relaxed text-muted-foreground md:text-lg">
+        Five places you will cross before sunrise, in the order the night takes you through them.
+      </p>
+    </div>
+  );
+}
+
+function Place({ place }: { place: (typeof places)[number] }) {
+  return (
+    <article className="w-[84vw] shrink-0 md:w-auto">
+      <div className="relative aspect-4/5 w-full overflow-hidden md:aspect-16/10 md:h-[54svh] md:w-auto">
+        <img
+          src={place.image}
+          alt={place.name}
+          loading="lazy"
+          width={1600}
+          height={1008}
+          className="h-full w-full object-cover"
+        />
+        <span className="absolute left-0 top-0 bg-background px-4 py-2 font-mono text-sm tabular-nums tracking-[0.12em] text-sodium">
+          {place.time}
+        </span>
+      </div>
+      <h3 className="mt-6 font-display text-3xl font-extrabold uppercase leading-none text-foreground md:text-5xl">
+        {place.name}
+      </h3>
+      <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
+        {place.text}
+      </p>
+    </article>
+  );
+}
+
 export function World() {
-  const track = useRef<HTMLUListElement>(null);
-  const scrollBy = (dir: 1 | -1) => {
+  const ref = useRef<HTMLElement>(null);
+  const track = useRef<HTMLDivElement>(null);
+  const [distance, setDistance] = useState(0);
+  const travel = useMotionValue(0);
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
     const el = track.current;
-    if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: "smooth" });
-  };
+    if (!el || reduce) return;
+    const measure = () => {
+      const d = Math.max(0, el.scrollWidth - window.innerWidth);
+      setDistance(d);
+      travel.set(d);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    window.addEventListener("resize", measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [reduce, travel]);
+
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  const x = useTransform([scrollYProgress, travel], ([p, d]: number[]) => -d * p);
+  const progress = useTransform(scrollYProgress, (p) => `${p * 100}%`);
+
+  const trackClass = "flex items-start gap-8 px-6 md:gap-14 lg:px-14";
+
+  if (reduce) {
+    return (
+      <section id="world" data-night="22:10" className="scroll-mt-20 py-24 md:py-36">
+        <div className={cn(trackClass, "overflow-x-auto pb-6")}>
+          <Intro />
+          {places.map((p) => (
+            <Place key={p.name} place={p} />
+          ))}
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <Section id="world">
-      <div className="flex flex-wrap items-end justify-between gap-8">
-        <SectionHeading
-          eyebrow="The world"
-          title="One Indian city. One collapsing night."
-          description="Places built to be believed before they are feared."
-        />
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={() => scrollBy(-1)}
-            aria-label="Previous location"
-            className="flex h-12 w-12 items-center justify-center border border-foreground/25 text-foreground transition-colors hover:border-foreground"
-          >
-            <ArrowLeft size={18} />
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollBy(1)}
-            aria-label="Next location"
-            className="flex h-12 w-12 items-center justify-center border border-foreground/25 text-foreground transition-colors hover:border-foreground"
-          >
-            <ArrowRight size={18} />
-          </button>
+    <section
+      id="world"
+      ref={ref}
+      data-night="22:10"
+      data-night-end="03:15"
+      style={{ height: `calc(100svh + ${distance}px)` }}
+      className="relative"
+    >
+      <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden">
+        <motion.div ref={track} style={{ x }} className={cn(trackClass, "w-max")}>
+          <Intro />
+          {places.map((p) => (
+            <Place key={p.name} place={p} />
+          ))}
+          <div aria-hidden className="w-[10vw] shrink-0" />
+        </motion.div>
+        <div
+          aria-hidden
+          className="absolute inset-x-6 bottom-14 h-px bg-foreground/10 lg:inset-x-14"
+        >
+          <motion.div style={{ width: progress }} className="h-px bg-sodium" />
         </div>
       </div>
-
-      <ul
-        ref={track}
-        className="-mx-6 mt-14 flex snap-x snap-mandatory scroll-px-6 gap-5 overflow-x-auto scroll-smooth px-6 lg:scroll-px-14 pb-4 [scrollbar-width:none] lg:-mx-14 lg:px-14 [&::-webkit-scrollbar]:hidden"
-      >
-        {places.map((p) => (
-          <li
-            key={p.name}
-            className="w-[82vw] shrink-0 snap-start sm:w-[60vw] lg:w-[min(42vw,620px)]"
-          >
-            <img
-              src={p.image}
-              alt={p.name}
-              loading="lazy"
-              width={1600}
-              height={1008}
-              className="aspect-16/10 w-full object-cover"
-            />
-            <h3 className="mt-6 font-display text-3xl font-bold uppercase text-foreground md:text-4xl">
-              {p.name}
-            </h3>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
-              {p.text}
-            </p>
-          </li>
-        ))}
-      </ul>
-    </Section>
+    </section>
   );
 }

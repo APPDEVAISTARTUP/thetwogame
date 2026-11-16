@@ -119,6 +119,12 @@ export function SiteFooter() {
           </nav>
         </div>
       </div>
+      <div
+        aria-hidden
+        className="pointer-events-none h-[25vw] select-none overflow-hidden text-center font-display text-[44vw] font-black leading-[0.72] text-foreground/[0.045]"
+      >
+        TWO
+      </div>
     </footer>
   );
 }

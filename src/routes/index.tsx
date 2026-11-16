@@ -4,6 +4,8 @@ import { Hero } from "@/components/site/Hero";
 import { About } from "@/components/site/About";
 import { Features } from "@/components/site/Features";
 import { World } from "@/components/site/World";
+import { Facility } from "@/components/site/Facility";
+import { NightClock } from "@/components/site/NightClock";
 import { Gallery } from "@/components/site/Gallery";
 import { Roadmap } from "@/components/site/Roadmap";
 import { Supporters } from "@/components/site/Supporters";
@@ -63,11 +65,13 @@ function Index() {
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />
+      <NightClock />
       <main>
         <Hero />
         <About />
-        <Features />
         <World />
+        <Facility />
+        <Features />
         <Gallery />
         <Roadmap />
         <Waitlist />
