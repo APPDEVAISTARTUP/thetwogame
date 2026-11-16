@@ -18,7 +18,7 @@ export const MAX_DONATION_INR = 500000;
 
 /** Official social + contact links. */
 export const LINKS = {
-  instagram: "https://www.instagram.com/shadestudiosofficial/",
+  instagram: "https://www.instagram.com/wildcrowngames/",
   discord: "https://discord.gg/two",
   youtube: "https://youtube.com",
   steam: "https://store.steampowered.com",
