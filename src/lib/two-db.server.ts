@@ -5,28 +5,23 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
  * Kept separate from the Lovable Cloud client in src/integrations/supabase.
  *
  * Env (set in Vercel → Project → Settings → Environment Variables, never VITE_-prefixed):
- *   TWO_SUPABASE_URL         https://<ref>.supabase.co
- *   TWO_SUPABASE_SECRET_KEY  sb_secret_… (or the legacy service_role key)
+ *   TWO_SUPABASE_URL              https://<ref>.supabase.co
+ *   TWO_SUPABASE_PUBLISHABLE_KEY  sb_publishable_… (enough for the waitlist: anon INSERT only)
+ *   TWO_SUPABASE_SECRET_KEY       sb_secret_… or service_role (required for donations)
  */
-let client: SupabaseClient | null | undefined;
+const clients = new Map<string, SupabaseClient>();
 
 function isNewApiKey(key: string) {
   return key.startsWith("sb_secret_") || key.startsWith("sb_publishable_");
 }
 
-export function getTwoDb(): SupabaseClient | null {
-  if (client !== undefined) return client;
-  const url = process.env["TWO_SUPABASE_URL"]?.trim();
-  const key = process.env["TWO_SUPABASE_SECRET_KEY"]?.trim();
-  if (!url || !key) {
-    client = null;
-    return client;
-  }
-
-  client = createClient(url, key, {
+function makeClient(url: string, key: string) {
+  const cached = clients.get(key);
+  if (cached) return cached;
+  const created = createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false },
     global: {
-      // New sb_secret_ keys are opaque strings, not JWTs: send them only as `apikey`.
+      // New sb_ keys are opaque strings, not JWTs: send them only as `apikey`.
       fetch: (input, init) => {
         const headers = new Headers(init?.headers);
         if (isNewApiKey(key) && headers.get("Authorization") === `Bearer ${key}`) {
@@ -37,7 +32,24 @@ export function getTwoDb(): SupabaseClient | null {
       },
     },
   });
-  return client;
+  clients.set(key, created);
+  return created;
+}
+
+/** Full-access client (secret key). Needed for donations. */
+export function getTwoDb(): SupabaseClient | null {
+  const url = process.env["TWO_SUPABASE_URL"]?.trim();
+  const key = process.env["TWO_SUPABASE_SECRET_KEY"]?.trim();
+  return url && key ? makeClient(url, key) : null;
+}
+
+/** Client for waitlist inserts: secret key if set, otherwise the publishable key. */
+export function getTwoWaitlistDb(): SupabaseClient | null {
+  const url = process.env["TWO_SUPABASE_URL"]?.trim();
+  const key =
+    process.env["TWO_SUPABASE_SECRET_KEY"]?.trim() ||
+    process.env["TWO_SUPABASE_PUBLISHABLE_KEY"]?.trim();
+  return url && key ? makeClient(url, key) : null;
 }
 
 const hits = new Map<string, { count: number; resetAt: number }>();

@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getRequestHeader } from "@tanstack/react-start/server";
 import { z } from "zod";
-import { getTwoDb, isRateLimited } from "./two-db.server";
+import { getTwoWaitlistDb, isRateLimited } from "./two-db.server";
 
 export const waitlistSchema = z.object({
   name: z.string().trim().min(1, "Please enter your name").max(100, "Name is too long"),
@@ -33,7 +33,7 @@ export const joinWaitlist = createServerFn({ method: "POST" })
     // Bots that fill the hidden field get a fake success and nothing is stored.
     if (data.website?.trim()) return { status: "joined" };
 
-    const db = getTwoDb();
+    const db = getTwoWaitlistDb();
     if (!db) return { status: "unconfigured" };
     if (isRateLimited(`waitlist:${clientIp()}`, 8, 10 * 60 * 1000))
       return { status: "rate-limited" };

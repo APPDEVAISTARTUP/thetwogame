@@ -1,7 +1,8 @@
 -- TWO website database (your own Supabase project, separate from Lovable Cloud).
 -- Run this once in Supabase Dashboard -> SQL Editor -> New query -> Run.
--- The website talks to these tables only from the server with the service-role key,
--- so RLS is enabled with no public policies: browsers cannot read or write directly.
+-- Waitlist: the website server inserts with the publishable key, so anon gets INSERT only
+-- (no SELECT/UPDATE/DELETE: nobody can read the list with the public key).
+-- Donations: only the secret/service-role key can touch them (no public policies).
 
 create extension if not exists pgcrypto;
 
@@ -18,6 +19,18 @@ create unique index if not exists waitlist_signups_email_unique
   on public.waitlist_signups (lower(email));
 
 alter table public.waitlist_signups enable row level security;
+
+revoke all on public.waitlist_signups from anon, authenticated;
+grant insert (name, email) on public.waitlist_signups to anon, authenticated;
+
+drop policy if exists "Anyone can join the waitlist" on public.waitlist_signups;
+create policy "Anyone can join the waitlist"
+  on public.waitlist_signups for insert to anon, authenticated
+  with check (
+    length(trim(name)) between 1 and 100
+    and length(email) between 3 and 255
+    and email ~* '^[^@\s]+@[^@\s]+\.[^@\s]+$'
+  );
 
 -- Donations (Razorpay) -------------------------------------------------------
 create table if not exists public.donations (
@@ -39,5 +52,4 @@ create index if not exists donations_status_paid_at on public.donations (status,
 
 alter table public.donations enable row level security;
 
-revoke all on public.waitlist_signups from anon, authenticated;
 revoke all on public.donations from anon, authenticated;
