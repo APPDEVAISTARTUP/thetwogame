@@ -9,11 +9,11 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { BrandWordmark } from "@/components/site/BrandLogo";
 import { Reveal, Section, SectionHeading } from "@/components/site/primitives";
 import { DonationPanel } from "@/components/support/DonationPanel";
-import { formatInr } from "@/config/support";
-import { supabase } from "@/integrations/supabase/client";
+import { FUNDING_GOAL, formatInr } from "@/config/support";
+import { getSupportStats } from "@/lib/donations.functions";
 
 const description =
-  "Support TWO — help a solo indie developer bring a cinematic open-world zombie survival game to life. Donate via UPI, unlock supporter rewards and follow the funding progress.";
+  "Support TWO — help a solo indie developer bring a cinematic open-world zombie survival game to life. Donate securely via Razorpay (UPI, cards, netbanking), unlock supporter rewards and follow the funding progress.";
 
 export const Route = createFileRoute("/support")({
   component: SupportPage,
@@ -107,18 +107,13 @@ const faqs = [
 ];
 
 function SupportPage() {
-  const { data: supporters, isLoading } = useQuery({
-    queryKey: ["supporters"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("supporters")
-        .select("id, display_name, amount_inr, message, created_at")
-        .order("created_at", { ascending: false })
-        .limit(12);
-      if (error) throw error;
-      return data;
-    },
+  const { data: stats, isLoading } = useQuery({
+    queryKey: ["support-stats"],
+    queryFn: () => getSupportStats(),
   });
+  const supporters = stats?.recent;
+  const raised = stats?.raisedInr ?? 0;
+  const progress = Math.min(100, (raised / FUNDING_GOAL) * 100);
 
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
@@ -195,8 +190,24 @@ function SupportPage() {
           <SectionHeading
             eyebrow="Donate"
             title="Choose Your Support"
-            description="Pick an amount, tap Donate Now and confirm in your UPI app. Or scan the QR code with your phone."
+            description="Pick an amount, add your name and pay securely with UPI, cards, netbanking or wallets through Razorpay."
           />
+          {raised > 0 && (
+            <div className="mt-12 max-w-2xl">
+              <div className="flex items-end justify-between font-display text-xs uppercase tracking-[0.24em] text-muted-foreground">
+                <span>
+                  <span className="text-2xl text-foreground">{formatInr(raised)}</span> raised
+                </span>
+                <span>Goal {formatInr(FUNDING_GOAL)}</span>
+              </div>
+              <div className="mt-3 h-1 w-full bg-border">
+                <div
+                  className="h-1 bg-blood-bright shadow-[0_0_12px_var(--color-blood-bright)]"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            </div>
+          )}
           <div className="mt-16">
             <DonationPanel />
           </div>
@@ -282,11 +293,11 @@ function SupportPage() {
                 {supporters.map((s) => (
                   <div key={s.id} className="bg-card p-8">
                     <div className="font-display text-lg uppercase tracking-[0.1em] text-foreground">
-                      {s.display_name}
+                      {s.name}
                     </div>
-                    {s.amount_inr ? (
+                    {s.amountInr ? (
                       <div className="mt-2 text-[0.65rem] uppercase tracking-[0.24em] text-blood-bright">
-                        {formatInr(s.amount_inr)}
+                        {formatInr(s.amountInr)}
                       </div>
                     ) : null}
                     {s.message ? (

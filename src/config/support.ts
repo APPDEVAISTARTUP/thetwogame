@@ -3,17 +3,18 @@
  * Everything here is safe to edit — no code changes required.
  */
 
-/** UPI ID that receives donations. Replace with your real VPA. */
-export const UPI_ID = "10aashu@fam";
-
-/** Name shown inside the UPI app when a supporter pays. */
-export const UPI_PAYEE_NAME = "Shade Studios";
-
 /** Funding goal in INR. */
 export const FUNDING_GOAL = 200000;
 
-/** Amount raised so far in INR. Update this as donations come in. */
-export const FUNDING_RAISED = 18500;
+/**
+ * Money raised outside Razorpay (e.g. earlier UPI transfers), in INR.
+ * The support page adds every paid Razorpay donation on top of this.
+ */
+export const FUNDING_RAISED_OFFLINE = 0;
+
+/** Donation limits for Razorpay Checkout, in INR. */
+export const MIN_DONATION_INR = 10;
+export const MAX_DONATION_INR = 500000;
 
 /** Official social + contact links. */
 export const LINKS = {
@@ -26,16 +27,4 @@ export const LINKS = {
 
 export function formatInr(value: number) {
   return `₹${value.toLocaleString("en-IN")}`;
-}
-
-/** Builds a UPI deep link that opens GPay / PhonePe / Paytm / BHIM. */
-export function buildUpiLink(amount?: number) {
-  const params = new URLSearchParams({
-    pa: UPI_ID,
-    pn: UPI_PAYEE_NAME,
-    cu: "INR",
-    tn: "Support TWO",
-  });
-  if (amount && amount > 0) params.set("am", String(amount));
-  return `upi://pay?${params.toString()}`;
 }

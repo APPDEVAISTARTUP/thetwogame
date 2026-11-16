@@ -1,9 +1,8 @@
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { z } from "zod";
 import ctaCity from "@/assets/cta-city.jpg";
-import { supabase } from "@/integrations/supabase/client";
+import { joinWaitlist, waitlistSchema } from "@/lib/waitlist.functions";
 import { CinematicButton, Reveal } from "./primitives";
 
 const TICKER = [
@@ -41,15 +40,7 @@ function WaitlistTicker() {
   );
 }
 
-const schema = z.object({
-  name: z.string().trim().min(1, "Please enter your name").max(100, "Name is too long"),
-  email: z
-    .string()
-    .trim()
-    .min(3, "Please enter your email")
-    .max(255, "Email is too long")
-    .email("Please enter a valid email address"),
-});
+const schema = waitlistSchema;
 
 export function Waitlist() {
   const navigate = useNavigate();
@@ -57,6 +48,7 @@ export function Waitlist() {
   const [error, setError] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [website, setWebsite] = useState("");
 
   const filled = (name.trim() ? 1 : 0) + (schema.shape.email.safeParse(email).success ? 1 : 0);
   const progress = loading ? 100 : (filled / 2) * 100;
@@ -81,24 +73,29 @@ export function Waitlist() {
     }
 
     setLoading(true);
-    const { error: insertError } = await supabase.from("waitlist_signups").insert({
-      name: parsed.data.name,
-      email: parsed.data.email.toLowerCase(),
-    });
+    let status: Awaited<ReturnType<typeof joinWaitlist>>["status"];
+    try {
+      status = (await joinWaitlist({ data: { ...parsed.data, website } })).status;
+    } catch {
+      status = "failed";
+    }
     setLoading(false);
 
-    if (insertError) {
-      const duplicate =
-        insertError.code === "23505" || insertError.message.toLowerCase().includes("duplicate");
-      const message = duplicate
-        ? "This email is already on the waitlist."
-        : "Something went wrong. Please try again in a moment.";
+    if (status !== "joined" && status !== "exists") {
+      const message =
+        status === "rate-limited"
+          ? "Too many attempts. Please wait a few minutes and try again."
+          : status === "unconfigured"
+            ? "The waitlist is being set up. Please try again shortly."
+            : "Something went wrong. Please try again in a moment.";
       setError(message);
       toast.error(message);
       return;
     }
 
-    toast.success("You're on the waitlist.");
+    toast.success(
+      status === "exists" ? "You're already on the waitlist." : "You're on the waitlist.",
+    );
     void navigate({
       to: "/waitlist/success",
       search: { name: parsed.data.name, email: parsed.data.email.toLowerCase() },
@@ -172,6 +169,21 @@ export function Waitlist() {
                 aria-label="Email"
                 className="w-full border border-border bg-background/60 px-6 py-4 text-sm tracking-wide text-foreground outline-hidden transition-colors duration-300 placeholder:text-muted-foreground focus:border-blood"
               />
+              <div
+                aria-hidden="true"
+                className="absolute -left-[10000px] h-px w-px overflow-hidden"
+              >
+                <label>
+                  Leave this empty
+                  <input
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                  />
+                </label>
+              </div>
               {error && (
                 <p role="alert" className="text-left text-xs tracking-wide text-destructive">
                   {error}

@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
-import QRCode from "qrcode";
+import { useMemo, useState, type FormEvent } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Check, Copy, QrCode, Smartphone } from "lucide-react";
+import { CheckCircle2, Loader2, ShieldCheck } from "lucide-react";
 import { CinematicButton, Reveal } from "@/components/site/primitives";
-import { UPI_ID, buildUpiLink, formatInr } from "@/config/support";
+import { MAX_DONATION_INR, MIN_DONATION_INR, formatInr } from "@/config/support";
+import { createDonationOrder, donationSchema, verifyDonation } from "@/lib/donations.functions";
 import { cn } from "@/lib/utils";
 
 const tiers = [
@@ -17,11 +18,58 @@ const tiers = [
   },
 ];
 
+type RazorpaySuccess = {
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  razorpay_signature: string;
+};
+
+type RazorpayInstance = {
+  open: () => void;
+  on: (event: string, cb: (res: unknown) => void) => void;
+};
+
+declare global {
+  interface Window {
+    Razorpay?: new (options: Record<string, unknown>) => RazorpayInstance;
+  }
+}
+
+let checkoutScript: Promise<boolean> | null = null;
+
+function loadCheckout() {
+  if (typeof window === "undefined") return Promise.resolve(false);
+  if (window.Razorpay) return Promise.resolve(true);
+  checkoutScript ??= new Promise<boolean>((resolve) => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.onload = () => resolve(Boolean(window.Razorpay));
+    script.onerror = () => {
+      checkoutScript = null;
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+  return checkoutScript;
+}
+
+type Phase = "idle" | "creating" | "paying" | "verifying" | "done";
+
+const field =
+  "w-full border border-border bg-background px-5 py-4 text-sm outline-hidden transition-colors placeholder:text-muted-foreground focus:border-blood";
+
 export function DonationPanel() {
+  const queryClient = useQueryClient();
   const [selected, setSelected] = useState<number | "custom">(500);
   const [custom, setCustom] = useState("");
-  const [qr, setQr] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [isPublic, setIsPublic] = useState(true);
+  const [phase, setPhase] = useState<Phase>("idle");
+  const [error, setError] = useState<string | null>(null);
+  const [paidAmount, setPaidAmount] = useState(0);
 
   const amount = useMemo(() => {
     if (selected === "custom") {
@@ -31,49 +79,124 @@ export function DonationPanel() {
     return selected;
   }, [selected, custom]);
 
-  const upiLink = useMemo(() => buildUpiLink(amount || undefined), [amount]);
+  const busy = phase === "creating" || phase === "paying" || phase === "verifying";
 
-  useEffect(() => {
-    let active = true;
-    QRCode.toDataURL(upiLink, {
-      width: 640,
-      margin: 1,
-      errorCorrectionLevel: "M",
-      color: { dark: "#f5f5f5", light: "#00000000" },
-    })
-      .then((url) => active && setQr(url))
-      .catch(() => active && setQr(null));
-    return () => {
-      active = false;
-    };
-  }, [upiLink]);
-
-  const donate = () => {
-    if (!amount) {
-      toast.error("Enter an amount to continue.");
-      return;
-    }
-    window.location.href = upiLink;
-    window.setTimeout(() => {
-      toast("No UPI app opened?", {
-        description: "Scan the QR code below from your phone instead.",
-      });
-    }, 2200);
+  const fail = (msg: string) => {
+    setError(msg);
+    toast.error(msg);
+    setPhase("idle");
   };
 
-  const copyUpi = async () => {
-    try {
-      await navigator.clipboard.writeText(UPI_ID);
-      setCopied(true);
-      toast.success("UPI ID copied");
-      window.setTimeout(() => setCopied(false), 2000);
-    } catch {
-      toast.error("Could not copy. UPI ID: " + UPI_ID);
+  const donate = async (e: FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    const parsed = donationSchema.safeParse({
+      amountInr: amount,
+      name,
+      email,
+      message: message || undefined,
+      isPublic,
+    });
+    if (!parsed.success) return fail(parsed.error.issues[0]?.message ?? "Check the form.");
+
+    setPhase("creating");
+    const [ready, order] = await Promise.all([
+      loadCheckout(),
+      createDonationOrder({ data: parsed.data }).catch(() => ({ status: "failed" as const })),
+    ]);
+
+    if (order.status !== "created") {
+      return fail(
+        order.status === "unconfigured"
+          ? "Online donations are being set up. Please try again shortly."
+          : order.status === "rate-limited"
+            ? "Too many attempts. Please wait a few minutes and try again."
+            : "Could not start the payment. Please try again.",
+      );
     }
+    if (!ready || !window.Razorpay) {
+      return fail(
+        "Could not load Razorpay. Check your connection or disable ad-blockers and retry.",
+      );
+    }
+
+    setPhase("paying");
+    const checkout = new window.Razorpay({
+      key: order.keyId,
+      order_id: order.orderId,
+      amount: order.amountPaise,
+      currency: order.currency,
+      name: "TWO — Shade Studios",
+      description: "Support TWO",
+      prefill: { name: parsed.data.name, email: parsed.data.email || undefined },
+      notes: { purpose: "Support TWO" },
+      theme: { color: "#b3121b" },
+      handler: async (res: RazorpaySuccess) => {
+        setPhase("verifying");
+        const result = await verifyDonation({
+          data: {
+            orderId: res.razorpay_order_id,
+            paymentId: res.razorpay_payment_id,
+            signature: res.razorpay_signature,
+          },
+        }).catch(() => ({ status: "failed" as const }));
+
+        if (result.status === "paid") {
+          setPaidAmount(parsed.data.amountInr);
+          setPhase("done");
+          toast.success("Thank you for supporting TWO!");
+          void queryClient.invalidateQueries({ queryKey: ["support-stats"] });
+        } else {
+          fail(
+            `Payment received but we couldn't confirm it automatically. Keep your payment ID: ${res.razorpay_payment_id}`,
+          );
+        }
+      },
+      modal: {
+        ondismiss: () => setPhase((p) => (p === "paying" ? "idle" : p)),
+      },
+    });
+    checkout.on("payment.failed", () => {
+      toast.error("Payment failed. You can try again.");
+    });
+    checkout.open();
   };
+
+  if (phase === "done") {
+    return (
+      <Reveal>
+        <div className="glass-panel mx-auto max-w-2xl p-10 text-center md:p-14">
+          <CheckCircle2 className="mx-auto text-blood-bright" size={40} />
+          <h3 className="mt-6 font-display text-3xl uppercase tracking-[0.08em] text-foreground md:text-4xl">
+            Thank you, {name.trim() || "survivor"}
+          </h3>
+          <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
+            Your {formatInr(paidAmount)} contribution has been received and goes straight into
+            building TWO.
+            {isPublic ? " Your name will appear on the supporters wall." : ""}
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setPhase("idle");
+              setMessage("");
+            }}
+            className="mt-8 text-xs uppercase tracking-[0.24em] text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Make another donation
+          </button>
+        </div>
+      </Reveal>
+    );
+  }
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14">
+    <form
+      onSubmit={donate}
+      noValidate
+      className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14"
+    >
       {/* Amount selection */}
       <div>
         <div className="grid gap-4 sm:grid-cols-3">
@@ -132,7 +255,8 @@ export function DonationPanel() {
               Custom Amount
             </label>
             <p className="mt-2 text-xs text-muted-foreground">
-              Give what feels right. Every rupee is development time.
+              Give what feels right ({formatInr(MIN_DONATION_INR)} – {formatInr(MAX_DONATION_INR)}).
+              Every rupee is development time.
             </p>
             <div className="mt-5 flex items-center gap-3">
               <span className="font-display text-2xl text-muted-foreground">₹</span>
@@ -142,65 +266,86 @@ export function DonationPanel() {
                 onFocus={() => setSelected("custom")}
                 onChange={(e) => {
                   setSelected("custom");
-                  setCustom(e.target.value.replace(/[^0-9]/g, "").slice(0, 7));
+                  setCustom(e.target.value.replace(/[^0-9]/g, "").slice(0, 6));
                 }}
                 inputMode="numeric"
                 placeholder="Enter amount"
-                className="w-full border border-border bg-background px-5 py-4 text-sm outline-hidden transition-colors focus:border-blood"
+                className={field}
               />
             </div>
           </div>
         </Reveal>
-
-        <Reveal delay={0.16}>
-          <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center">
-            <CinematicButton onClick={donate} className="w-full sm:w-auto">
-              <Smartphone size={14} />
-              Donate {amount ? formatInr(amount) : "Now"}
-            </CinematicButton>
-            <button
-              type="button"
-              onClick={copyUpi}
-              className="inline-flex items-center justify-center gap-2 border border-border px-6 py-4 text-xs uppercase tracking-[0.22em] text-muted-foreground transition-colors duration-300 hover:border-blood hover:text-foreground"
-            >
-              {copied ? <Check size={14} /> : <Copy size={14} />}
-              {UPI_ID}
-            </button>
-          </div>
-          <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-            On mobile this opens Google Pay, PhonePe, Paytm or BHIM with the amount already filled
-            in — you only confirm. On desktop, scan the QR code with your phone.
-          </p>
-        </Reveal>
       </div>
 
-      {/* QR */}
+      {/* Donor details + pay */}
       <Reveal delay={0.1}>
-        <div className="glass-panel flex h-full flex-col items-center justify-center p-8 text-center md:p-10">
+        <div className="glass-panel flex h-full flex-col gap-4 p-8 md:p-10">
           <span className="eyebrow flex items-center gap-2">
-            <QrCode size={13} /> Scan to pay
+            <ShieldCheck size={13} /> Secure payment via Razorpay
           </span>
-          <div className="mt-8 flex aspect-square w-full max-w-[300px] items-center justify-center border border-border bg-background p-5">
-            {qr ? (
-              <img
-                src={qr}
-                alt={`UPI QR code to donate ${amount ? formatInr(amount) : "to TWO"}`}
-                width={640}
-                height={640}
-                className="h-full w-full object-contain"
-              />
+          <div className="font-display text-4xl text-foreground">
+            {amount ? formatInr(amount) : "Choose an amount"}
+          </div>
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Your name"
+            aria-label="Your name"
+            autoComplete="name"
+            maxLength={80}
+            required
+            className={field}
+          />
+          <input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="email"
+            placeholder="Email (optional, for your receipt)"
+            aria-label="Email (optional)"
+            autoComplete="email"
+            inputMode="email"
+            maxLength={255}
+            className={field}
+          />
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="A message for the developer (optional)"
+            aria-label="Message (optional)"
+            maxLength={280}
+            rows={3}
+            className={cn(field, "resize-none")}
+          />
+          <label className="flex items-center gap-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+            <input
+              type="checkbox"
+              checked={isPublic}
+              onChange={(e) => setIsPublic(e.target.checked)}
+              className="h-4 w-4 accent-[var(--color-blood)]"
+            />
+            Show my name on the supporters wall
+          </label>
+          {error && (
+            <p role="alert" className="text-xs leading-relaxed text-destructive">
+              {error}
+            </p>
+          )}
+          <CinematicButton type="submit" className="mt-2 w-full" disabled={busy || !amount}>
+            {busy ? (
+              <>
+                <Loader2 size={14} className="animate-spin" />
+                {phase === "verifying" ? "Confirming…" : "Opening Razorpay…"}
+              </>
             ) : (
-              <span className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                Generating…
-              </span>
+              <>Donate {amount ? formatInr(amount) : "Now"}</>
             )}
-          </div>
-          <div className="mt-8 font-display text-3xl text-foreground">
-            {amount ? formatInr(amount) : "Any amount"}
-          </div>
-          <p className="mt-3 text-xs uppercase tracking-[0.22em] text-muted-foreground">{UPI_ID}</p>
+          </CinematicButton>
+          <p className="text-[0.65rem] leading-relaxed tracking-wide text-muted-foreground">
+            Pay with UPI, cards, netbanking or wallets. Payments are processed by Razorpay; card and
+            bank details never reach this website.
+          </p>
         </div>
       </Reveal>
-    </div>
+    </form>
   );
 }

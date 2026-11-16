@@ -80,10 +80,10 @@ export function Support() {
         <div className="mt-6 flex flex-col gap-5 border border-border p-8 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="font-display text-lg uppercase tracking-[0.16em] text-foreground">
-              Custom Amount & UPI
+              Custom Amount
             </div>
             <p className="mt-2 text-sm text-muted-foreground">
-              Pay any amount instantly with GPay, PhonePe, Paytm or BHIM.
+              Pay any amount securely with UPI, cards or netbanking via Razorpay.
             </p>
           </div>
           <Link

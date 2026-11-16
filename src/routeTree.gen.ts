@@ -13,6 +13,7 @@ import { Route as SupportRouteImport } from './routes/support'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WaitlistSuccessRouteImport } from './routes/waitlist.success'
+import { Route as ApiRazorpayWebhookRouteImport } from './routes/api.razorpay-webhook'
 
 const SupportRoute = SupportRouteImport.update({
   id: '/support',
@@ -34,17 +35,24 @@ const WaitlistSuccessRoute = WaitlistSuccessRouteImport.update({
   path: '/waitlist/success',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiRazorpayWebhookRoute = ApiRazorpayWebhookRouteImport.update({
+  id: '/api/razorpay-webhook',
+  path: '/api/razorpay-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/support': typeof SupportRoute
+  '/api/razorpay-webhook': typeof ApiRazorpayWebhookRoute
   '/waitlist/success': typeof WaitlistSuccessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/support': typeof SupportRoute
+  '/api/razorpay-webhook': typeof ApiRazorpayWebhookRoute
   '/waitlist/success': typeof WaitlistSuccessRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,38 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/support': typeof SupportRoute
+  '/api/razorpay-webhook': typeof ApiRazorpayWebhookRoute
   '/waitlist/success': typeof WaitlistSuccessRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sitemap.xml' | '/support' | '/waitlist/success'
+  fullPaths:
+    | '/'
+    | '/sitemap.xml'
+    | '/support'
+    | '/api/razorpay-webhook'
+    | '/waitlist/success'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sitemap.xml' | '/support' | '/waitlist/success'
-  id: '__root__' | '/' | '/sitemap.xml' | '/support' | '/waitlist/success'
+  to:
+    | '/'
+    | '/sitemap.xml'
+    | '/support'
+    | '/api/razorpay-webhook'
+    | '/waitlist/success'
+  id:
+    | '__root__'
+    | '/'
+    | '/sitemap.xml'
+    | '/support'
+    | '/api/razorpay-webhook'
+    | '/waitlist/success'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SupportRoute: typeof SupportRoute
+  ApiRazorpayWebhookRoute: typeof ApiRazorpayWebhookRoute
   WaitlistSuccessRoute: typeof WaitlistSuccessRoute
 }
 
@@ -99,6 +125,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WaitlistSuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/razorpay-webhook': {
+      id: '/api/razorpay-webhook'
+      path: '/api/razorpay-webhook'
+      fullPath: '/api/razorpay-webhook'
+      preLoaderRoute: typeof ApiRazorpayWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -106,8 +139,19 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SupportRoute: SupportRoute,
+  ApiRazorpayWebhookRoute: ApiRazorpayWebhookRoute,
   WaitlistSuccessRoute: WaitlistSuccessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
