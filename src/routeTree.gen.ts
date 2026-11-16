@@ -9,15 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SupportRouteImport } from './routes/support'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as WaitlistSuccessRouteImport } from './routes/waitlist.success'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SupportRouteImport } from './routes/support'
 import { Route as ApiRazorpayWebhookRouteImport } from './routes/api.razorpay-webhook'
+import { Route as WaitlistSuccessRouteImport } from './routes/waitlist.success'
 
-const SupportRoute = SupportRouteImport.update({
-  id: '/support',
-  path: '/support',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -25,19 +25,19 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const WaitlistSuccessRoute = WaitlistSuccessRouteImport.update({
-  id: '/waitlist/success',
-  path: '/waitlist/success',
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiRazorpayWebhookRoute = ApiRazorpayWebhookRouteImport.update({
   id: '/api/razorpay-webhook',
   path: '/api/razorpay-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WaitlistSuccessRoute = WaitlistSuccessRouteImport.update({
+  id: '/waitlist/success',
+  path: '/waitlist/success',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -97,11 +97,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/support': {
-      id: '/support'
-      path: '/support'
-      fullPath: '/support'
-      preLoaderRoute: typeof SupportRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -111,18 +111,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/waitlist/success': {
-      id: '/waitlist/success'
-      path: '/waitlist/success'
-      fullPath: '/waitlist/success'
-      preLoaderRoute: typeof WaitlistSuccessRouteImport
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/razorpay-webhook': {
@@ -130,6 +123,13 @@ declare module '@tanstack/react-router' {
       path: '/api/razorpay-webhook'
       fullPath: '/api/razorpay-webhook'
       preLoaderRoute: typeof ApiRazorpayWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/waitlist/success': {
+      id: '/waitlist/success'
+      path: '/waitlist/success'
+      fullPath: '/waitlist/success'
+      preLoaderRoute: typeof WaitlistSuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
