@@ -58,8 +58,15 @@ export function Gallery() {
                 src={s.src}
                 alt={s.alt}
                 loading="lazy"
-                className="aspect-16/10 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                className="aspect-16/10 h-full w-full object-cover saturate-[1.3] contrast-[1.08] transition-transform duration-[1200ms] ease-out group-hover:scale-[1.08]"
               />
+              <span
+                aria-hidden
+                className="absolute inset-0 border-2 border-transparent transition-colors duration-300 group-hover:border-blood-bright"
+              />
+              <span className="absolute inset-x-0 bottom-0 translate-y-full bg-blood-bright px-4 py-2 text-left font-mono text-[0.7rem] uppercase tracking-[0.12em] text-white transition-transform duration-300 group-hover:translate-y-0">
+                {s.alt}
+              </span>
             </button>
           </Reveal>
         ))}

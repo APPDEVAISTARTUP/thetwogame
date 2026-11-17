@@ -9,12 +9,23 @@ import { useCallback, useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowDown } from "lucide-react";
 import heroCity from "@/assets/hero-city.jpg";
+import { Embers } from "./Embers";
 import { buttonClass } from "./primitives";
 
 /** Scroll progress at which the camera has fully passed through the "O". */
 const THROUGH = 0.6;
 const MAX_ZOOM = 80;
 const ease = [0.16, 1, 0.3, 1] as const;
+
+/** In-world headlines for the 9 o'clock bulletin running under the hero. */
+const BULLETIN = [
+  "Civil Hospital Sector 9 stops admitting patients",
+  "NH-48 closed in both directions",
+  "Metro Line 4 services suspended until further notice",
+  "Residents advised to stay indoors and lock all shutters",
+  "Army checkposts set up on the outer ring road",
+  "Do not approach anyone who appears injured",
+];
 
 /**
  * Signature: the city is only visible through the letters T-W-O. Scrolling pushes the
@@ -109,7 +120,17 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.8, ease }}
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover saturate-[1.35] contrast-[1.1]"
+        />
+        {/* Emergency lights: a red siren pulse from the street, sodium haze from above. */}
+        <div
+          aria-hidden
+          className="absolute -bottom-[20%] -left-[10%] h-[80%] w-[60%] rounded-full bg-blood-bright/45 mix-blend-screen blur-[120px]"
+          style={{ animation: "ember-pulse 2.6s ease-in-out infinite" }}
+        />
+        <div
+          aria-hidden
+          className="absolute -right-[10%] -top-[25%] h-[70%] w-[55%] rounded-full bg-sodium/25 mix-blend-screen blur-[140px]"
         />
         <div aria-hidden className="film-grain absolute inset-0 opacity-25" />
 
@@ -130,19 +151,27 @@ export function Hero() {
               </g>
             </mask>
           </defs>
-          <rect width="100%" height="100%" fill="var(--background)" mask="url(#two-cutout)" />
-          <g ref={lineG} fill="none" strokeWidth={1.5}>
+          {/* Not fully opaque: the burning city stays visible, dimmed, around the letters. */}
+          <rect
+            width="100%"
+            height="100%"
+            fill="oklch(0.09 0.02 20)"
+            fillOpacity={0.8}
+            mask="url(#two-cutout)"
+          />
+          <g ref={lineG} fill="none" strokeWidth={2}>
             <text {...letters}>
-              <tspan stroke="color-mix(in oklab, var(--foreground) 22%, transparent)">TW</tspan>
+              <tspan stroke="color-mix(in oklab, var(--foreground) 55%, transparent)">TW</tspan>
               <tspan stroke="var(--color-blood-bright)">O</tspan>
             </text>
           </g>
         </motion.svg>
+        <Embers className="mix-blend-screen" />
 
         {/* First frame: what the game is and what to do. */}
         <motion.div
           style={{ opacity: introOpacity, pointerEvents: introEvents }}
-          className="absolute inset-x-0 bottom-0 z-10 pb-[9svh]"
+          className="absolute inset-x-0 bottom-0 z-10"
         >
           <div className="container-x flex flex-col gap-7 md:flex-row md:items-end md:justify-between">
             <motion.div
@@ -150,10 +179,10 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.1, delay: 0.5, ease }}
             >
-              <h1 className="max-w-xl font-display text-4xl font-extrabold uppercase leading-[0.92] text-foreground md:text-5xl">
+              <h1 className="max-w-2xl font-display text-4xl font-black uppercase leading-[0.9] text-foreground [text-shadow:0_4px_40px_rgba(0,0,0,0.8)] md:text-6xl">
                 Survive the first night of the outbreak.
               </h1>
-              <p className="mt-4 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-foreground/60">
+              <p className="mt-4 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-foreground/75">
                 Open-world zombie survival · Set in India · Unreal Engine 5 · PC
               </p>
             </motion.div>
@@ -177,6 +206,39 @@ export function Hero() {
                 </p>
               )}
             </motion.div>
+          </div>
+
+          {/* The bulletin that is "still on air": a live news ticker. */}
+          <div
+            aria-hidden
+            className="mt-7 flex items-stretch border-t border-blood-bright/60 bg-black/70 backdrop-blur-sm"
+          >
+            <span className="flex shrink-0 items-center gap-2 bg-blood-bright px-4 py-2.5 font-display text-sm font-extrabold uppercase tracking-[0.08em] text-white md:px-6">
+              <span
+                className="h-2 w-2 rounded-full bg-white"
+                style={{ animation: "hud-blink 1.2s ease-in-out infinite" }}
+              />
+              Breaking
+            </span>
+            <div className="relative flex-1 overflow-hidden">
+              <div
+                className="flex w-max items-center gap-10 whitespace-nowrap py-2.5 pl-10"
+                style={{ animation: "marquee-x 46s linear infinite" }}
+              >
+                {[...BULLETIN, ...BULLETIN].map((line, i) => (
+                  <span
+                    key={i}
+                    className="flex items-center gap-10 font-mono text-xs uppercase tracking-[0.12em] text-foreground/90"
+                  >
+                    {line}
+                    <span className="h-1.5 w-1.5 rotate-45 bg-blood-bright" />
+                  </span>
+                ))}
+              </div>
+            </div>
+            <span className="hidden shrink-0 items-center px-6 font-mono text-xs tabular-nums tracking-[0.12em] text-sodium md:flex">
+              21:00 IST
+            </span>
           </div>
         </motion.div>
 

@@ -5,14 +5,19 @@ export function About() {
   return (
     <Section id="about" night="21:40">
       <div className="grid items-center gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-24">
-        <Reveal>
+        <Reveal className="relative">
+          <div
+            aria-hidden
+            className="absolute -inset-6 bg-blood-bright/30 blur-[90px]"
+            style={{ animation: "ember-pulse 4s ease-in-out infinite" }}
+          />
           <img
             src={survivor}
             alt="A weathered survivor holding a flashlight in the rain"
             loading="lazy"
             width={1408}
             height={1600}
-            className="aspect-4/5 w-full object-cover"
+            className="relative aspect-4/5 w-full object-cover saturate-[1.25] contrast-[1.08]"
           />
         </Reveal>
 

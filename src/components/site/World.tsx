@@ -59,7 +59,7 @@ function Intro() {
 
 function Place({ place }: { place: (typeof places)[number] }) {
   return (
-    <article className="w-[84vw] shrink-0 md:w-auto">
+    <article className="group w-[84vw] shrink-0 md:w-auto">
       <div className="relative aspect-4/5 w-full overflow-hidden md:aspect-16/10 md:h-[54svh] md:w-auto">
         <img
           src={place.image}
@@ -67,9 +67,13 @@ function Place({ place }: { place: (typeof places)[number] }) {
           loading="lazy"
           width={1600}
           height={1008}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover saturate-[1.3] contrast-[1.08] transition-transform duration-[1400ms] ease-out group-hover:scale-[1.06]"
         />
-        <span className="absolute left-0 top-0 bg-background px-4 py-2 font-mono text-sm tabular-nums tracking-[0.12em] text-sodium">
+        <span
+          aria-hidden
+          className="absolute inset-0 bg-linear-to-t from-blood/50 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        />
+        <span className="absolute left-0 top-0 bg-blood-bright px-4 py-2 font-mono text-sm font-medium tabular-nums tracking-[0.12em] text-white">
           {place.time}
         </span>
       </div>
@@ -137,6 +141,10 @@ export function World() {
       className="relative"
     >
       <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-[15%] bottom-0 h-[60%] w-[60%] rounded-full bg-blood/20 blur-[160px]"
+        />
         <motion.div ref={track} style={{ x }} className={cn(trackClass, "w-max")}>
           <Intro />
           {places.map((p) => (

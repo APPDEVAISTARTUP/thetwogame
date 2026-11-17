@@ -1,3 +1,4 @@
+import { ArrowUpRight } from "lucide-react";
 import { Reveal, Section, SectionHeading } from "./primitives";
 
 const features = [
@@ -16,27 +17,39 @@ const features = [
 
 export function Features() {
   return (
-    <Section id="features" className="bg-card">
-      <div className="grid gap-16 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
+    <Section id="features" className="relative overflow-hidden">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-[20%] top-0 h-[70%] w-[70%] rounded-full bg-blood/25 blur-[160px]"
+      />
+      <div className="relative">
         <SectionHeading
           eyebrow="Gameplay"
           title="Every system serves the tension"
           description="Each mechanic exists to make the world feel real and the next street feel dangerous."
         />
-        <dl className="grid gap-x-12 sm:grid-cols-2">
+        <div className="mt-16 border-t border-foreground/15">
           {features.map((f, i) => (
-            <Reveal key={f.title} delay={(i % 2) * 0.05}>
-              <div className="border-t border-border py-7">
-                <dt className="font-display text-2xl font-bold uppercase text-foreground">
+            <Reveal key={f.title} delay={(i % 4) * 0.04}>
+              <div className="group relative grid cursor-default items-center gap-x-10 gap-y-2 overflow-hidden border-b border-foreground/15 px-2 py-7 md:grid-cols-[1.1fr_1fr_auto] md:px-6 md:py-9">
+                <span
+                  aria-hidden
+                  className="absolute inset-0 origin-bottom scale-y-0 bg-blood-bright transition-transform duration-500 ease-out group-hover:scale-y-100"
+                />
+                <h3 className="relative font-display text-4xl font-black uppercase leading-none text-foreground transition-transform duration-500 group-hover:translate-x-3 md:text-7xl">
                   {f.title}
-                </dt>
-                <dd className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
+                </h3>
+                <p className="relative max-w-md text-sm leading-relaxed text-muted-foreground transition-colors duration-300 group-hover:text-white md:text-lg">
                   {f.text}
-                </dd>
+                </p>
+                <ArrowUpRight
+                  aria-hidden
+                  className="relative hidden h-10 w-10 -translate-x-4 text-white opacity-0 transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100 md:block"
+                />
               </div>
             </Reveal>
           ))}
-        </dl>
+        </div>
       </div>
     </Section>
   );

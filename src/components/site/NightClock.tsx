@@ -83,7 +83,7 @@ export function NightClock() {
         className="pointer-events-none fixed inset-0 z-30 mix-blend-screen"
         style={{
           background:
-            "radial-gradient(120% 70% at 50% 0%, color-mix(in oklab, var(--color-sodium) 13%, transparent), transparent 65%)",
+            "radial-gradient(120% 70% at 50% 0%, color-mix(in oklab, var(--color-sodium) 20%, transparent), transparent 65%)",
           opacity: "clamp(0, calc(1 - var(--night, 0) * 1.6), 1)",
         }}
       />
@@ -104,7 +104,7 @@ export function NightClock() {
 
       <div
         aria-hidden
-        className="pointer-events-none fixed bottom-5 left-6 z-40 flex items-baseline gap-3 font-mono uppercase text-foreground/80 mix-blend-difference lg:left-14"
+        className="pointer-events-none fixed right-2 top-1/2 z-40 flex -translate-y-1/2 items-baseline gap-3 font-mono uppercase text-foreground/80 mix-blend-difference [writing-mode:vertical-rl] md:right-4"
       >
         <span className="text-[0.62rem] tracking-[0.18em] text-foreground/60">Day 01</span>
         <span ref={timeRef} className="text-sm tracking-[0.12em] tabular-nums">
