@@ -3,7 +3,6 @@ import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import ctaCity from "@/assets/cta-city.jpg";
 import { joinWaitlist, waitlistSchema } from "@/lib/waitlist.functions";
-import { Embers } from "./Embers";
 import { CinematicButton, Reveal } from "./primitives";
 
 const schema = waitlistSchema;
@@ -77,7 +76,6 @@ export function Waitlist() {
         className="absolute inset-0 h-full w-full object-cover"
       />
       <div className="absolute inset-0 bg-background/55" />
-      <Embers className="mix-blend-screen" density={0.6} />
       <div className="absolute inset-0 bg-linear-to-b from-background via-transparent to-background" />
       <div
         aria-hidden

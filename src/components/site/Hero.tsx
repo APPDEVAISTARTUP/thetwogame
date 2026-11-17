@@ -9,7 +9,6 @@ import { useCallback, useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowDown } from "lucide-react";
 import heroCity from "@/assets/hero-city.jpg";
-import { Embers } from "./Embers";
 import { buttonClass } from "./primitives";
 
 /** Scroll progress at which the camera has fully passed through the "O". */
@@ -166,7 +165,6 @@ export function Hero() {
             </text>
           </g>
         </motion.svg>
-        <Embers className="mix-blend-screen" />
 
         {/* First frame: what the game is and what to do. */}
         <motion.div
