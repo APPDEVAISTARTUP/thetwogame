@@ -30,7 +30,7 @@ export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <Section id="faq" className="bg-card">
+    <Section id="faq" className="hairline">
       <div className="grid gap-16 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
         <SectionHeading eyebrow="FAQ" title="Questions" />
         <div className="border-t border-border">

@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import ctaCity from "@/assets/cta-city.jpg";
 import { joinWaitlist, waitlistSchema } from "@/lib/waitlist.functions";
 import { CinematicButton, Reveal } from "./primitives";
 
@@ -64,32 +63,13 @@ export function Waitlist() {
     <section
       id="waitlist"
       data-night="05:00"
-      className="relative scroll-mt-20 overflow-hidden py-32 md:py-52"
+      className="hairline relative scroll-mt-20 py-24 md:py-36"
     >
-      <img
-        src={ctaCity}
-        alt=""
-        aria-hidden
-        loading="lazy"
-        width={1920}
-        height={1088}
-        className="absolute inset-0 h-full w-full object-cover"
-      />
-      <div className="absolute inset-0 bg-background/55" />
-      <div className="absolute inset-0 bg-linear-to-b from-background via-transparent to-background" />
-      <div
-        aria-hidden
-        className="absolute inset-0 mix-blend-screen"
-        style={{
-          background:
-            "linear-gradient(to top, oklch(0.6 0.1 240 / 0.28), oklch(0.6 0.1 240 / 0.06) 60%, transparent)",
-        }}
-      />
 
       <div className="container-x relative grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-24">
         <div>
           <Reveal>
-            <span className="eyebrow">05:00 · First light</span>
+            <span className="eyebrow">Waitlist</span>
           </Reveal>
           <Reveal delay={0.06}>
             <h2 className="display-xl mt-5 text-foreground">Be there on night one</h2>

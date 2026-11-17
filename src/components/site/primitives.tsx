@@ -1,68 +1,19 @@
-import { motion, type Variants } from "framer-motion";
-import { Fragment, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-
-const revealVariants: Variants = {
-  hidden: { opacity: 0, y: 28 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
-  },
-};
 
 export function Reveal({
   children,
-  delay = 0,
   className,
 }: {
   children: ReactNode;
   delay?: number;
   className?: string;
 }) {
-  return (
-    <motion.div
-      className={className}
-      variants={revealVariants}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ delay }}
-    >
-      {children}
-    </motion.div>
-  );
+  return <div className={className}>{children}</div>;
 }
 
-/** Headline that rises word by word out of a mask when it scrolls into view. */
 export function RevealText({ text, className }: { text: string; className?: string }) {
-  const words = text.split(" ");
-  return (
-    <motion.span
-      className={className}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ staggerChildren: 0.07 }}
-      aria-label={text}
-    >
-      {words.map((word, i) => (
-        <Fragment key={i}>
-          <span aria-hidden className="inline-block overflow-hidden pb-[0.08em] align-bottom">
-            <motion.span
-              className="inline-block"
-              variants={{
-                hidden: { y: "110%", rotate: 4 },
-                show: { y: 0, rotate: 0, transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] } },
-              }}
-            >
-              {word}
-            </motion.span>
-          </span>{" "}
-        </Fragment>
-      ))}
-    </motion.span>
-  );
+  return <span className={className}>{text}</span>;
 }
 
 export function SectionHeading({

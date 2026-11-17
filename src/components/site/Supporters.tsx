@@ -6,7 +6,7 @@ const total = 100;
 export function Supporters() {
   const remaining = total - founders.length;
   return (
-    <Section id="founders" className="bg-card">
+    <Section id="founders" className="hairline">
       <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-end">
         <div>
           <Reveal>

@@ -6,11 +6,6 @@ export function About() {
     <Section id="about" night="21:40">
       <div className="grid items-center gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-24">
         <Reveal className="relative">
-          <div
-            aria-hidden
-            className="absolute -inset-6 bg-blood-bright/30 blur-[90px]"
-            style={{ animation: "ember-pulse 4s ease-in-out infinite" }}
-          />
           <img
             src={survivor}
             alt="A weathered survivor holding a flashlight in the rain"
@@ -23,7 +18,7 @@ export function About() {
 
         <div>
           <Reveal>
-            <span className="eyebrow">21:40 · The story</span>
+            <span className="eyebrow">The story</span>
           </Reveal>
           <Reveal delay={0.06}>
             <h2 className="display-xl mt-5 text-foreground">

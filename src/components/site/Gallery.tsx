@@ -35,7 +35,7 @@ export function Gallery() {
   }, [active]);
 
   return (
-    <Section id="gallery" className="bg-card">
+    <Section id="gallery" className="hairline">
       <SectionHeading
         eyebrow="Gallery"
         title="Captured in engine"

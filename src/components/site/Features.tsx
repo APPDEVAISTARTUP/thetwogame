@@ -18,10 +18,6 @@ const features = [
 export function Features() {
   return (
     <Section id="features" className="relative overflow-hidden">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-[20%] top-0 h-[70%] w-[70%] rounded-full bg-blood/25 blur-[160px]"
-      />
       <div className="relative">
         <SectionHeading
           eyebrow="Gameplay"
