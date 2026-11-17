@@ -1,6 +1,6 @@
-import { ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Reveal, Section, buttonClass } from "./primitives";
+import { GoodieOverlay, useGoodieOverlay } from "@/components/support/GoodieOverlay";
 
 const tiers = [
   { amount: "₹100", title: "Supporter", perk: "A personal thank-you" },
@@ -13,6 +13,8 @@ const tiers = [
 ];
 
 export function Support() {
+  const { open, openOverlay, closeOverlay } = useGoodieOverlay();
+
   return (
     <Section id="support">
       <div className="grid gap-14 lg:grid-cols-[1fr_1.3fr] lg:gap-24">
@@ -30,14 +32,12 @@ export function Support() {
             </p>
           </Reveal>
           <Reveal delay={0.18}>
-            <a
-              href="https://buymeagoddie.vercel.app/wildcrowngames"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={openOverlay}
               className={cn(buttonClass("primary"), "mt-10")}
             >
-              Support TWO <ExternalLink size={16} />
-            </a>
+              Support TWO
+            </button>
           </Reveal>
         </div>
 
@@ -59,6 +59,7 @@ export function Support() {
           ))}
         </div>
       </div>
+      <GoodieOverlay open={open} onClose={closeOverlay} />
     </Section>
   );
 }
