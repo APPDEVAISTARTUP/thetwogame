@@ -1,6 +1,7 @@
+import { ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { SUPPORT_URL } from "@/config/support";
 import { Reveal, Section, buttonClass } from "./primitives";
-import { GoodieOverlay, useGoodieOverlay } from "@/components/support/GoodieOverlay";
 
 const tiers = [
   { amount: "₹100", title: "Supporter", perk: "A personal thank-you" },
@@ -13,8 +14,6 @@ const tiers = [
 ];
 
 export function Support() {
-  const { open, openOverlay, closeOverlay } = useGoodieOverlay();
-
   return (
     <Section id="support">
       <div className="grid gap-14 lg:grid-cols-[1fr_1.3fr] lg:gap-24">
@@ -32,12 +31,14 @@ export function Support() {
             </p>
           </Reveal>
           <Reveal delay={0.18}>
-            <button
-              onClick={openOverlay}
+            <a
+              href={SUPPORT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className={cn(buttonClass("primary"), "mt-10")}
             >
-              Support TWO
-            </button>
+              Support TWO <ExternalLink size={16} />
+            </a>
           </Reveal>
         </div>
 
@@ -59,7 +60,6 @@ export function Support() {
           ))}
         </div>
       </div>
-      <GoodieOverlay open={open} onClose={closeOverlay} />
     </Section>
   );
 }

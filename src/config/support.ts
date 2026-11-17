@@ -3,6 +3,8 @@
  * Everything here is safe to edit — no code changes required.
  */
 
+export const SUPPORT_URL = "https://buymeagoddie.vercel.app/wildcrowngames";
+
 /** Funding goal in INR. */
 export const FUNDING_GOAL = 200000;
 

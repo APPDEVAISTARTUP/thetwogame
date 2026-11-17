@@ -83,7 +83,7 @@ export function NightClock() {
         className="pointer-events-none fixed inset-0 z-30 mix-blend-screen"
         style={{
           background:
-            "radial-gradient(120% 70% at 50% 0%, color-mix(in oklab, var(--color-sodium) 20%, transparent), transparent 65%)",
+            "radial-gradient(120% 70% at 50% 0%, color-mix(in oklab, var(--color-sodium) 8%, transparent), transparent 60%)",
           opacity: "clamp(0, calc(1 - var(--night, 0) * 1.6), 1)",
         }}
       />
@@ -99,7 +99,7 @@ export function NightClock() {
       />
       <div
         aria-hidden
-        className="film-grain pointer-events-none fixed inset-0 z-30 opacity-[0.07]"
+        className="film-grain pointer-events-none fixed inset-0 z-30 opacity-[0.025]"
       />
 
       <div
