@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Plus, Boxes, Move3d, Trees, AudioLines, Bug, Wallet } from "lucide-react";
@@ -9,11 +8,9 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { BrandWordmark } from "@/components/site/BrandLogo";
 import { Reveal, Section, SectionHeading } from "@/components/site/primitives";
 import { DonationPanel } from "@/components/support/DonationPanel";
-import { FUNDING_GOAL, formatInr } from "@/config/support";
-import { getSupportStats } from "@/lib/donations.functions";
 
 const description =
-  "Support TWO — help a solo indie developer bring a cinematic open-world zombie survival game to life. Donate securely via Razorpay (UPI, cards, netbanking), unlock supporter rewards and follow the funding progress.";
+  "Support TWO — help a solo indie developer bring a cinematic open-world zombie survival game to life. Contribute any amount via Buy Me a Goodie, unlock supporter rewards and become part of the journey.";
 
 export const Route = createFileRoute("/support")({
   component: SupportPage,
@@ -107,14 +104,6 @@ const faqs = [
 ];
 
 function SupportPage() {
-  const { data: stats, isLoading } = useQuery({
-    queryKey: ["support-stats"],
-    queryFn: () => getSupportStats(),
-  });
-  const supporters = stats?.recent;
-  const raised = stats?.raisedInr ?? 0;
-  const progress = Math.min(100, (raised / FUNDING_GOAL) * 100);
-
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   return (
@@ -189,25 +178,9 @@ function SupportPage() {
         <Section id="donate" className="hairline">
           <SectionHeading
             eyebrow="Donate"
-            title="Choose Your Support"
-            description="Pick an amount, add your name and pay securely with UPI, cards, netbanking or wallets through Razorpay."
+            title="Support TWO"
+            description="Contribute any amount via Buy Me a Goodie — UPI, cards, netbanking and more."
           />
-          {raised > 0 && (
-            <div className="mt-12 max-w-2xl">
-              <div className="flex items-end justify-between font-display text-xs uppercase tracking-[0.24em] text-muted-foreground">
-                <span>
-                  <span className="text-2xl text-foreground">{formatInr(raised)}</span> raised
-                </span>
-                <span>Goal {formatInr(FUNDING_GOAL)}</span>
-              </div>
-              <div className="mt-3 h-1 w-full bg-border">
-                <div
-                  className="h-1 bg-blood-bright shadow-[0_0_12px_var(--color-blood-bright)]"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-            </div>
-          )}
           <div className="mt-16">
             <DonationPanel />
           </div>
@@ -273,52 +246,6 @@ function SupportPage() {
                 </div>
               </Reveal>
             ))}
-          </div>
-        </Section>
-
-        {/* Recent supporters */}
-        <Section className="hairline">
-          <SectionHeading
-            align="center"
-            eyebrow="Recent Supporters"
-            title="The people behind TWO"
-          />
-          <div className="mx-auto mt-16 max-w-5xl">
-            {isLoading ? (
-              <p className="text-center text-xs uppercase tracking-[0.24em] text-muted-foreground">
-                Loading…
-              </p>
-            ) : supporters && supporters.length > 0 ? (
-              <div className="grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-                {supporters.map((s) => (
-                  <div key={s.id} className="bg-card p-8">
-                    <div className="font-display text-lg uppercase tracking-[0.1em] text-foreground">
-                      {s.name}
-                    </div>
-                    {s.amountInr ? (
-                      <div className="mt-2 text-[0.65rem] uppercase tracking-[0.24em] text-blood-bright">
-                        {formatInr(s.amountInr)}
-                      </div>
-                    ) : null}
-                    {s.message ? (
-                      <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                        “{s.message}”
-                      </p>
-                    ) : null}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="border border-border bg-card p-12 text-center md:p-16">
-                <p className="font-display text-2xl uppercase tracking-[0.1em] text-foreground md:text-3xl">
-                  Be the first supporter of TWO.
-                </p>
-                <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
-                  This wall fills up with the names of everyone who backed the outbreak before it
-                  began.
-                </p>
-              </div>
-            )}
           </div>
         </Section>
 

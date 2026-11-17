@@ -1,5 +1,4 @@
-import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Reveal, Section, buttonClass } from "./primitives";
 
@@ -31,9 +30,14 @@ export function Support() {
             </p>
           </Reveal>
           <Reveal delay={0.18}>
-            <Link to="/support" className={cn(buttonClass("primary"), "mt-10")}>
-              Support TWO <ArrowRight size={16} />
-            </Link>
+            <a
+              href="https://buymeagoddie.vercel.app/wildcrowngames"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(buttonClass("primary"), "mt-10")}
+            >
+              Support TWO <ExternalLink size={16} />
+            </a>
           </Reveal>
         </div>
 
