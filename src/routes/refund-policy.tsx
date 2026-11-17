@@ -53,8 +53,8 @@ function RefundPage() {
           body: (
             <p>
               Email <Mail /> within {LEGAL.refundRequestDays} days of the payment with your name,
-              the amount, the date and the Razorpay payment ID (starts with <code>pay_</code>, shown
-              in your payment confirmation). We reply within 3 working days.
+              the amount, the date and the transaction ID shown in your payment confirmation. We
+              reply within 3 working days.
             </p>
           ),
         },
@@ -62,7 +62,7 @@ function RefundPage() {
           title: "Refund timeline",
           body: (
             <p>
-              Approved refunds are issued through Razorpay to the original payment method (UPI,
+              Approved refunds are issued to the original payment method (UPI,
               card, netbanking or wallet) and usually reach you within {LEGAL.refundProcessingDays}{" "}
               working days, depending on your bank. If money was debited for a failed payment, your
               bank normally reverses it automatically within this time.
@@ -73,7 +73,7 @@ function RefundPage() {
           title: "Cancellation",
           body: (
             <p>
-              You can cancel at any time before completing payment by closing the Razorpay checkout.
+              You can cancel at any time before completing payment by closing the payment page.
               Nothing is charged until the payment is confirmed.
             </p>
           ),

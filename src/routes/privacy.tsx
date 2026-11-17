@@ -33,9 +33,9 @@ function PrivacyPage() {
                 <strong className="text-foreground">Waitlist:</strong> your name and email address.
               </li>
               <li>
-                <strong className="text-foreground">Contributions:</strong> your name, optional
-                email and message, the amount, whether your name may be shown publicly, and the
-                Razorpay order and payment IDs.
+                <strong className="text-foreground">Contributions:</strong> contributions are
+                made on Buy Me a Goodie, which shares with us only the details you choose to give
+                there (such as your name, amount and message).
               </li>
               <li>
                 <strong className="text-foreground">Usage data:</strong> anonymous, aggregated page
@@ -48,8 +48,8 @@ function PrivacyPage() {
           title: "Payment information",
           body: (
             <p>
-              Payments are handled entirely by Razorpay. Card numbers, UPI PINs and bank credentials
-              are entered on Razorpay&rsquo;s secure checkout and never reach our servers. Razorpay
+              We do not take payments on this Website. Contributions are made on Buy Me a Goodie,
+              and card numbers, UPI PINs and bank credentials never reach our servers. That service
               processes them under its own privacy policy.
             </p>
           ),
@@ -61,8 +61,7 @@ function PrivacyPage() {
               <li>To contact waitlist members about TWO, demo access and development updates.</li>
               <li>To record, confirm and, if needed, refund contributions.</li>
               <li>
-                To show supporter names and messages on the Website, only if you allowed it at
-                checkout.
+                To show supporter names and messages on the Website, only if you allowed it.
               </li>
               <li>To keep the Website secure and prevent spam or fraud.</li>
             </ul>
@@ -73,7 +72,7 @@ function PrivacyPage() {
           body: (
             <p>
               Data is stored in a secured database hosted by Supabase and the Website runs on
-              Vercel. Payments are processed by Razorpay. These providers act on our behalf and only
+              Vercel. Contributions are processed by Buy Me a Goodie. These providers act on our behalf and only
               process data to provide their service. We do not sell or rent your information.
             </p>
           ),

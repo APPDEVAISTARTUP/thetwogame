@@ -63,7 +63,7 @@ function TermsPage() {
           title: "Payments",
           body: (
             <p>
-              Payments are processed by Razorpay Software Pvt. Ltd. using UPI, cards, netbanking or
+              Contributions are made through Buy Me a Goodie using UPI, cards, netbanking or
               wallets. We never see or store your card or bank details. All amounts are in Indian
               Rupees (INR). You are responsible for any charges your bank or payment provider
               applies.

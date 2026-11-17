@@ -78,8 +78,8 @@ function ContactPage() {
           title: "Payment or refund issues",
           body: (
             <p>
-              Include your name, the amount, the date and the Razorpay payment ID (starts with{" "}
-              <code>pay_</code>) so we can find your contribution quickly.
+              Include your name, the amount, the date and the transaction ID so we can find your
+              contribution quickly.
             </p>
           ),
         },

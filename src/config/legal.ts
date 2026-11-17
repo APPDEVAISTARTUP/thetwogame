@@ -1,12 +1,12 @@
 /**
  * Business details shown on the Terms, Privacy, Refund and Contact pages.
- * Payment gateways (Razorpay) check that these match your KYC, so keep them accurate.
+ * Keep these accurate: they are shown on the Contact and legal pages.
  * Empty strings are hidden from the pages.
  */
 export const LEGAL = {
   /** Public brand name. */
   brand: "Wildcrown Games",
-  /** Legal name of the person or business that receives payments (as in Razorpay KYC). */
+  /** Legal name of the person or business that receives contributions. */
   operator: "",
   /** Registered / correspondence address. */
   address: "",
